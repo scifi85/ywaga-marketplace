@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load cart_tags %}
+
+{% block body %}
+    <script>
+    $(function(){
+
+       $('#send').click(function(){
+          var mes=$('#editMessage').val();
+           $('#message').val(mes);
+           var copy=$('#EditFile');
+           $('#appendFile').html(copy);
+           $('#sendForm').submit();
+       });
+    });
+    </script>
+    <div class="span2"></div>
+    <div class="span8">
+        <p class="message-to">{% trans "Разговор с пользователем:" %} 
+            {% autoescape off %}
+            <a href="{% url shop to %}">{{ to }}</a>
+            {% endautoescape %}
+        </p>
+
+        {% for message in msgs.object_list %}
+            <div class="one-message">
+                <div class="message-head">
+            <span class="message-user">
+                <span class="message-user">{{ message.user }}</span>
+                <a href="/media/{{ message.file }}" class="msg-file">{{ message.file }}</a>
+                </span>
+                    
+                    <span class="message-date">{{ message.create_date|date:"d.m.y" }}</span>
+                </div>
+                <div class="message-text">
+                    {{ message.text }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="otpavka">
+            <input type="file" id="EditFile" name="file">
+            <br>
+            <textarea maxlength="2000" id="editMessage" class="text-otpravka span12" placeholder="{% trans "Текст сообщения" %}"></textarea>
+            <br>
+            <a href="#"  class="btn btn-warning" id="send" onclick="loaderShow()">{% trans "Отправить" %}</a>
+            <a href="{% url show_messages %}" class="btn">{% trans "Отмена" %}</a>
+            
+            <form action="{% url post_message to %}" method="post"  id="sendForm" enctype="multipart/form-data">{% csrf_token %}
+            <input type="hidden" name="message" id="message">
+                <span id="appendFile"></span>
+                
+            </form>
+        </div>
+        <ul class="paginator">
+            {% if msgs.has_previous %}
+                <li class="page-prev"><a href="?page={{ msgs.previous_page_number }}" id="previous"> ← </a></li>
+            {% endif %}
+            {% if msgs.paginator %}
+                {{ msgs.number }}  из  {{ msgs.paginator.num_pages }}
+            {% endif %}
+            {% if msgs.has_next %}
+                <li class="page-next"><a href="?page={{ msgs.next_page_number }}" id="next"> → </a></li>
+            {% endif %}
+        </ul>
+
+    </div>
+
+{% endblock %}

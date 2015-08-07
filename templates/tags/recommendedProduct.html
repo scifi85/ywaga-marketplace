@@ -1,0 +1,17 @@
+{% load i18n %}
+<a href="{% url product product.id %}">
+    <img src="/media/{{ product.picture }}" alt="">
+    <span class="read-more">{% trans "Подробнее" %}</span>
+</a>
+<div class="floating-info">
+	    <span class="price-thumb">
+	        {% if product.is_promotion %}
+	            {{ product.promotion_price }} грн.
+	    <span class="promoprice"><strike>{{ product.price }} грн.</strike></span>
+	        {% else %}
+	            {{ product.price }} грн.
+	        {% endif %}
+	    </span>
+	    
+	    <a href="{% url product product.id %}" class="prod-thumb-head" title="{{ product.name }}">{{ product.name }}</a>
+</div>

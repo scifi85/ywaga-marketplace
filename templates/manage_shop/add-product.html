@@ -1,0 +1,462 @@
+{% extends "manage_shop/base.html" %}
+{% load i18n %}
+{% load cart_tags %}
+
+{% block header %} 
+<script type="text/javascript" src="/static/plugins/cam/webcam.js"></script>
+<script type="text/javascript" src="/static/scripts/add_product.js"></script>
+<script type="text/javascript" src="/static/scripts/add_product/sizes.js"></script>
+<script type="text/javascript" src="/static/scripts/add_product/new_pictures.js"></script>
+<script type="text/javascript" src="/static/scripts/add_product/pictures.js"></script>
+<script type="text/javascript" src="/static/scripts/add_product/keywordBarcodePreorderPromotion.js"></script>
+<script type="text/javascript" src="/static/plugins/livequery/jquery.livequery.js"></script>
+<script type="text/javascript" src="/static/scripts/add_product/categories.js"></script>
+<script type="text/javascript" src="/static/scripts/add_product/add_color.js"></script>
+
+<script type="text/javascript" src="/static/plugins/AjaxFileUploader/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/static/scripts/slider_buddah.js"></script>
+<script type="text/javascript" src="/static/plugins/tiny_mce/tiny_mce.js"></script>
+    <script src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+
+<script>
+    loaderShow();
+var initial_categories=parseInt('{{ product.category.all.count }}');
+$(function() {
+    /*{% if product.country %}
+        var country = '{{ product.country }}'
+    {% else %}
+        var country = geoplugin_countryName();
+        if (country!='Ukraine'&&country!='Russia'&&country!='China')
+            country='Ukraine';
+    {% endif %}
+    $('#id_country').val(country);*/
+
+    $('.error-tooltip').each(function(i,v){
+        var error_msg=$(v).find('li').text();
+        $(v).html(error_msg);
+    })
+
+    var c=0;
+    get_categories(category_line,false);
+{#    alert('{{ product.category.all }}')#}
+    {% for category in product.category.all %}
+        {% ifequal category.name 'Other' %}
+            $("#add_own_category").show();
+        {% endifequal %}
+
+        $("#category"+c).livequery(function(){
+            if (write){
+                if ($("option[value='{{ category.number }}']",this).length>0){
+                    $(this).val('{{ category.number }}');
+                    add_zises(this);
+                    category_line.push('{{ category.number}}');
+                    get_categories(category_line,true);
+                } else{
+                    if('{{ category.name }}'=='Other')
+                        if(!('{{ product.has_own_category }}'=='False')){
+                            var current =parseInt('{{ product.has_own_category }}');
+                            for (var i=1;i<=current-1;i++){
+                                $("#id_categories").append("<input maxlength='300' type='text' id='category"+nc+"\" rel='"+nc+"'  name='category"+nc+"' class='category onlyStr'><br>");
+                                nc++;
+                            }
+                        }
+                    if (nc>=5)
+                        $("#add_own_category").hide()
+                    $(this).val('{{ category.name }}');
+                    add_zises(this);
+                }
+            }
+        })
+        c++;
+    {% endfor %}
+    {% for color in product.colors.all %}
+        $("#id_new_color_{{ color.id }} option[value='{{ color.color }}']").attr("selected", "selected");
+    {% endfor %}
+//    add_zises($('#category0'));
+
+    {% for size in product.sizes.all %}
+        $("#sizes_{{ size.size }}").livequery(function(){
+            $('#sizes_{{ size.size }}'.replace(',','\\,')).click();
+            $('#id_size_price_{{ size.size }}'.replace(',','\\,')).val({{ size.price }});
+        });
+{#        console.log($('#sizes_{{ size.size }}'));#}
+
+{#        console.log({{ size.size }})#}
+{#        console.log({{ size.price }})#}
+{#        $("#id_new_size_{{ size.id }}").val("{{ size }}");#}
+    {% endfor %}
+
+
+    $("#id_price, #id_promotion_price").change(function(){
+        var colors =$('.colors').length;
+        var sizes=$('.sizes').length;
+        var types =$('.types').length;
+        for (var i=0; i<colors;i++) $("#id_color_price_"+i).val(this.value);
+        for (var i=0; i<sizes;i++) $("#id_size_price_"+i).val(this.value);
+        for (var i=0; i<types;i++) $("#id_type_price_"+i).val(this.value);
+        {% for color  in product.colors.all %}
+            $("#id_initial_color_price0_{{ color.id }}").val(this.value);
+        {% endfor %}
+        {% for size in product.sizes.all %}
+            $("#id_initial_size_price0_{{ size.id }}").val(this.value);
+        {% endfor %}
+        {% for type in product.types.all %}
+            $("#id_initial_type_price0_{{ type.id }}").val(this.value);
+        {% endfor %}
+    });
+
+
+});
+</script>
+{% endblock %}
+{% block big_content %}
+{% if product.id %}
+    <a href="{% url product product.id %}" class="show-preview btn btn-small btn-warning" target="_blank"><i class="icon-search icon-white"></i> {% trans "Показать товар" %}</a>
+{% endif %}
+<form class="form-vertical" action="." method="POST" id="product_form" enctype="multipart/form-data">{% csrf_token %}
+        <ul class="nav nav-tabs" id="infotab">
+            <li><a href="#adding-info" data-toggle="tab">{% trans "Информация о товаре" %}</a></li>
+            <li><a href="#adding-photos" data-toggle="tab">{% trans "Фото товара" %}</a></li>
+        </ul>
+        <div class="tab-content">
+    		<div class="tab-pane" id="adding-info"> 
+                <h4 class="addproduct-head">{% trans "Основная информация:" %}</h4>
+                <div class="etap">
+                    {{ product_form.is_active}} {% trans "Показывать товар в магазине ?" %} <br> <br>
+                    {{product_form.non_field_errors}}
+        			<div class="info">
+                        {{ product_form.name }} <span class="required">* {% trans "Обязательное поле" %}</span>
+                        {% if product_form.name.errors %}
+                            <div class="error-tooltip">{{ product_form.name.errors }}</div>
+                        {% endif %}
+                        <br>
+                        {{  product_form.price }} <span class="required">* {% trans "Обязательное поле" %}</span>
+                        {% if product_form.price.errors %}
+                            <div class="error-tooltip">{{ product_form.price.errors }}</div>
+                        {% endif %}
+                        <br>
+                        {{ product_form.quantity }} <span class="required">* {% trans "Обязательное поле" %}</span>
+                        {% if product_form.quantity.errors %}
+                            <div class="error-tooltip">{{ product_form.quantity.errors }}</div>
+                        {% endif %}
+        			</div>
+                    <div class="hint">
+                        {% trans "Укажите здесь основную информацию о товаре: имя товара, цену в гривнах и количество. Количество товара уменьшается автоматически при каждой его покупке. Также, убрав галочку 'Показывать товар в магазине', вы сможете скрыть товар и он не будет показан покупателям." %}
+                    </div>
+                </div>
+                <h4 class="addproduct-head">{% trans "Доставка:" %}</h4>
+                <div class="etap">
+<!--                     <select name="country" id="id_country">
+                        <option value=""></option>
+                        <option value="Ukraine" selected="selected">{% trans "Украина" %}</option>
+                        <option value="Russia">{% trans "Россия" %}</option>
+                        <option value="China">{% trans "Китай" %}</option>
+                    </select>
+
+                    {% if product_form.country.errors %}
+                        <div class="error-tooltip">{{ product_form.country.errors }}</div>
+                    {% endif %}
+                    <br><br>
+                    {% trans "Доставка внутри страны" %}:<br>
+                    {{ product_form.internal_delivery }}<br><br>-->
+
+                    {{ product_form.is_external }} {% trans "Доставляете басплатно ?" %}<br>
+                    {{ product_form.external_delivery }}
+                    <span class="label freelabel" style="display: none;">Бесплатная доставка</span><br>
+                    <div class="hint">
+                        {% trans "Укажите цену на доставку вашего товара. Если доставка бесплатна - просто отметьте галочку" %}
+                    </div>
+                </div>
+                    <h4 class="addproduct-head">{% trans "Выбор категории и характеристик товара:" %}</h4>
+                    <div class="etap">
+                        <span id="id_categories"> </span>
+                        <a href="#" id ="add_own_category">{% trans "Добавить свою категорию" %}</a>
+
+                        <br>
+                        <div class="sizes-net">
+                            <p>Укажите нужные размеры:</p>
+                            <table></table>
+                            <br>
+                            <span>*Все размеры указаны в европейском и международном стандартах</span>
+                        </div>
+                    <div class="add-but">
+                        <a href="javascript:void(0)" class="btn" id="add_color">{% trans "Добавить цвет" %}</a>
+                        <div id="id_colors">
+                            {% for color in product.colors.all %}
+                            <select  name='initial_color0_{{ color.id }}' id="id_new_color_{{ color.id }}" class='colors'>
+                                <option value=''>{% trans "Пожалуйста, выберите нужный цвет" %}</option>
+                                <option value='black'>{{ 'black'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='dark grey'>{{ 'dark grey'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='grey'>{{ 'grey'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='light grey'>{{ 'light grey'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='white'>{{ 'white'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='dark pink'>{{ 'dark pink'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='pink'>{{ 'pink'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='light pink'>{{ 'light pink'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='coral'>{{ 'coral'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='dark red'>{{ 'dark red'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='red'>{{ 'red'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='orange'>{{ 'orange'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='taupe'>{{ 'taupe'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='brown'>{{ 'brown'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='beige'>{{ 'beige'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='blue-green'>{{ 'blue-green'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='olive'>{{ 'olive'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='dark green'>{{ 'dark green'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='green'>{{ 'green'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='light green'>{{ 'light green'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='turquoise'>{{ 'turquoise'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='azure'>{{ 'azure'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='light blue'>{{ 'light blue'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='electric blue'>{{ 'electric blue'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='dark blue'>{{ 'dark blue'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='indigo'>{{ 'indigo'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='dove-colored'>{{ 'dove-colored'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='purple'>{{ 'purple'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='cherry'>{{ 'cherry'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='lilac'>{{ 'lilac'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='dark yellow'>{{ 'dark yellow'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='yellow'>{{ 'yellow'|colorTrans:LANGUAGE_CODE}}</option>
+                                <option value='light yellow'>{{ 'light yellow'|colorTrans:LANGUAGE_CODE}}</option>
+                            </select>
+                            <input class='onlyFloat' type='text' maxlength="6" id='id_initial_color_price0_{{ color.id }}' name='initial_color_price0_{{ color.id }}' placeholder='Price' value='{{ color.price }}' style="display: block">
+                            <a href='#' class='delete'>{% trans "Удалить" %}</a>
+                            {% endfor %}
+                        </div>
+                        <a href="javascript:void(0)" class="btn" id="add_type">{% trans "Добавить тип" %}&nbsp;&nbsp;</a>
+                        <div id="id_types">
+                        {% for type in product.types.all %}
+                            <input type="text" maxlength="20" name='initial_type0_{{ type.id }}' id="id_new_type_{{ type.id }}" value="{{ type.name }}" class="types">
+                            <input class='onlyFloat' maxlength="6" type='text' id='id_initial_type_price0_{{ type.id }}' name='initial_type_price0_{{ type.id }}' placeholder='Price' value='{{ type.price }}'>
+                            <a href='#' class='delete'>{% trans "Удалить" %}</a>
+                        {% endfor %}
+                        </div>
+                        <div class="hint">
+                            {% trans "Здесь можно выбрать категорию для вашего товара. Так его легче найти покупателю. Так же здесь можно указать такие характеристики товара как размер, цвет и тип. Поле Тип - это универсальная характеристика, в которой может быть помещен любой текст. Например если вы не находите нужный размер в таблице размеров, его можно вписать в поле Тип. Либо же IPhone с памятью 16 Гб и 32 Гб. Вы можете назначать разные цены для одного товара с разными размерами, цветом или типом." %}
+                        </div>
+                    </div>
+                    </div>
+                    <h4 class="addproduct-head">{% trans "Описание товара:" %}</h4>
+                    <div class="etap">
+                        {{ product_form.description.errors }}
+                        {{ product_form.description }}
+                        <div class="hint">
+                            {% trans "Напишите детальное описание товара, которое будет отображаться в поле 'Описание товара' на странице товара. Постарайтесь описать все позитивные качества товара, это поможет вам его успешно продать." %}
+                        </div>
+                    </div>
+                <div id="extra">
+                    <h4 class="addproduct-head">{% trans "Предзаказ и скидка:" %}</h4>
+                    <div class="etap">
+                            {{ product_form.is_promotion}} {% trans "Товар со скидкой ?" %}
+                            {{ product_form.promotion_price }} <br>
+                            {{ product_form.preorder}} {% trans "Предзаказ ?" %}
+                            {{ product_form.preorder_days }}
+                            <div class="hint">
+                                {% trans "Здесь можно указать скидку для товара. Новая цена будет отображаться рядом со старой. Так же можно указывать количество дней, которое потребуется для предзаказа в том случае, если товара нет на складе." %}
+                            </div>
+                    </div>
+                    <h4 class="addproduct-head">{% trans "Добавление артикула товара:" %}</h4>
+                    <div class="etap">
+                        <a href="javascript:void(0)" class="btn" id="plus_barcode">{% trans "Добавить артикул" %}</a>
+                        <br><br>
+                        <div class="keywordes">
+                            {% for barcode in product.barcodes.all %}
+                                <div class="control-group add_barcode">
+                                    <input maxlength='300' type="text" class="input-xlarge barcodes" name="barcode_{{ barcode.id }}" placeholder="{% trans "Артикул" %}" value="{{ barcode.number }}">
+                                    <a href="#" class='delete_barcode'>{% trans "Удалить" %}</a>
+                                </div>
+                            {% endfor %}
+                            <div class="hint">
+                                {% trans "В этом блоке вы можете добавить такую характеристику товара как артикул или штрихкод. Это позволяет вам, как продавцу, быстро находить нужный товар в списке и отслеживать изменения на складе." %}
+                            </div>
+                        </div>
+                        <div class="add_barcode"></div>
+                    </div>
+                    <div class="etap">
+                        <h4 class="addproduct-head">{% trans "Ключевые слова:" %}</h4>
+{#                        {{ product_form.meta_description.label }}:<br>#}
+{#                        {{ product_form.meta_description }}#}
+                        <br>
+                        <a href="javascript:void(0)" class="btn" id="plus_keyword">{% trans "Добавить новое ключевое слово" %}</a>
+                        <br><br>
+                        <div class="keywordes">
+                            {% for keyword in product.keywords.all %}
+                            <div class="control-group add_keyword">
+                                    <input maxlength='300' type="text" class="input-xlarge keywords" name="keyword_{{ keyword.id }}" placeholder="{% trans "Ключевое слово" %}" value="{{ keyword.keyword }}">
+                                    <a href="#" class='delete_keyword'>{% trans "Удалить" %}</a>
+                            </div>
+                            {% endfor %}
+                        <div class="hint">
+                            {% trans "Это опции для поисковой оптимизации. Здесь можно добавить ключевые слова, по которым легко находить ваш товар как с помощью поиска на самом сайте, так и с помощью больших поисковых систем типа Google и Яндекс." %}
+                        </div>
+                    </div>
+                    <div class="add_keyword"></div>
+                    </div>
+                    
+                </div>
+    		</div> <!-- end tabpane -->
+<!-- end tabpaneaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
+            <div class="tab-pane" id="adding-photos">
+                <div class="slidephotos-block">
+
+                    <div class="add-pich2">
+                        <a class=" addphoto btn btn-success" href="#" id="show_webcam"> <i class="icon-camera icon-white"></i> {% trans "загрузить фото с веб-камеры" %}</a>
+                        <a class="addphoto btn btn-success btnwc" href="#" id="add_pic" rel="1"><i class="icon-home icon-white"></i>  {% trans "загрузить фото с компьютера" %}</a>
+                        <input name = "front_1" id="front_1" type="file" class="input-file" style="visibility:hidden" onchange="add_image_from_computer(this);">
+                    </div>
+
+                    <div class="clear"></div>
+                    <h2>{% trans "Фото для слайдера" %}</h2>
+                    <!-- Slider block -->
+                    <div class="slider-block">
+                        <div id="slider-main">
+                            <span class="nophoto"><!-- Нет фотографий --></span>
+                        </div>
+                        <ul id="slider-thumbs">
+                        </ul>
+                    </div>
+
+                    <div class="uploaded-block">
+                        {% for image in product.front_images.all %}
+                            <div class="uploaded-block-small" >
+                                <div class="linkholder">
+                                    <div class="arrows">
+                                        <div class="arrow-up">
+                                            <a href="#">&#9650;</a>
+                                        </div>
+                                        <div class="arrow-down">
+                                            <a href="#">&#9660;</a>
+                                        </div>
+                                    </div>
+                                    <div class="delete-thumbs" >
+                                        <a href="#" rel="{{ image.id }}">&#10006;</a>
+                                    </div>
+                                </div>
+                                <div class="thumbholder">
+                                    <img src="/media/{{ image.picture }}" alt="" rel="{{ image.id }}">
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                    <div class="clear"></div>
+                    <!-- END -->
+                </div>
+                <!-- PROMO -->
+                <div class="promophotos-block">
+                        <div class="prom add-pich2">
+                            <a class=" addphoto btn btn-success" href="#" id="show_webcam2"> <i class="icon-camera icon-white"></i> {% trans "загрузить фото с веб-камеры" %}</a>
+                            <a class="addphoto btn btn-success btnwc" href="#" id="add_pic2" rel="1"><i class="icon-home icon-white"></i>  {% trans "загрузить фото с компьютера" %}</a>
+                            <input name = "prom_1" id="promo_pic_1" type="file" class="input-file" style="visibility:hidden" onchange="add_image_from_computer2(this);">
+                        </div>
+                    <div class="clear"></div>
+                    <h2>{% trans "Дополнительные фото" %}</h2>
+
+                    <!-- Here are all images, just move whole block -->
+                    <div id="new_picture">
+                        {% for image in product.images.all %}
+                        <div class="prom_picture">
+                            <img src="/media/{{ image.picture }}" alt="">
+                            <a href="#" class="del_prom" rel="{{ image.id }}" title="{% trans "Удалить" %}">&#10006;</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- END -->
+            </div> <!-- end tabpane -->
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions">
+        	<button type="submit" class="btn btn-warning btn-large btn-sc" id="Save">{% trans "Сохранить" %}</button>
+            <button type="submit" class="btn btn-warning btn-large btn-sc" id="SaveContinue">{% trans "Сохранить и продолжить" %}</button>
+            <button type="submit" class="btn btn-warning btn-large btn-sc" id="SaveNew">{% trans "Сохранить и добавить новый" %}</button>
+        	<a href="{% url show %}" class="btn btn-large">{% trans "Отмена" %}</a>
+            {% if product %}
+                <a class="confirm delete-product btn btn-large btn-danger" rel='Вы уверены что хотите удалить?' href="{% url delete_product product.id%}">
+                    <i class="icon-trash icon-white"></i> {% trans "Удалить" %}</a>
+            {% endif %}
+    	</div>
+
+
+
+    <input type="hidden" name="selected" id="first_page">
+    <input type="hidden" id="save_id" name="save" value="Save">
+</div>
+    </form>
+
+
+
+    <div class="modal hide fade" id="modal-camera" style="width: 680px;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Ywaga.com</h3>
+        </div>
+        <div class="modal-body">
+            <div id="upload_results"></div>
+            <div id="webcam"></div>
+        </div>
+        <div class="modal-footer">       
+            <a href="#" class="btn btn-info" id="photo" onclick="take_snapshot();">{% trans "Фото" %}</a>
+            <a href="#" class="btn btn-info" id="setting" onclick="webcam.configure();">{% trans "Настройки" %}</a>
+            <a href="#" class="btn" data-dismiss="modal">{% trans "Отмена" %}</a>
+        </div>
+    </div>
+
+<script>
+  $(function () {
+    $('#infotab a:first').tab('show');
+  })
+
+  function add_color(color,price){
+      if (!price)
+          var price = $("#id_price").val();
+
+      var Color=$("<select name='colors_"+color+"'>"+
+              "<option value=''>{% trans "Пожалуйста выберите цвет" %}</option>"+
+              "<option value='black'>{{ 'black'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='dark grey'>{{ 'dark grey'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='grey'>{{ 'grey'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='light grey'>{{ 'light grey'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='white'>{{ 'white'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='dark pink'>{{ 'dark pink'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='pink'>{{ 'pink'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='light pink'>{{ 'light pink'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='dark red'>{{ 'dark red'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='red'>{{ 'red'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='orange'>{{ 'orange'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='taupe'>{{ 'taupe'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='brown'>{{ 'brown'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='beige'>{{ 'beige'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='blue-green'>{{ 'blue-green'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='olive'>{{ 'olive'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='dark green'>{{ 'dark green'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='green'>{{ 'green'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='light green'>{{ 'light green'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='turquoise'>{{ 'turquoise'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='azure'>{{ 'azure'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='light blue'>{{ 'light blue'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='electric blue'>{{ 'electric blue'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='dark blue'>{{ 'dark blue'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='indigo'>{{ 'indigo'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='dove-colored'>{{ 'dove-colored'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='purple'>{{ 'purple'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='cherry'>{{ 'cherry'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='lilac'>{{ 'lilac'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='dark yellow'>{{ 'dark yellow'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='yellow'>{{ 'yellow'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "<option value='light yellow'>{{ 'light yellow'|colorTrans:LANGUAGE_CODE}}</option>"+
+              "</select>"+
+              "<input class='onlyFloat' maxlength='6' type='text' id='id_color_price_"+color+"' name='color_price_"+color+"' placeholder='"+gettext("Цена")+"' value='"+price+"'>"+
+              "<a href='#' class='delete'>"+gettext("Удалить")+"</a>"
+      );
+
+      return Color
+  }
+
+</script>
+
+{% endblock %}
+
+{% block last_event %}
+{% endblock %}

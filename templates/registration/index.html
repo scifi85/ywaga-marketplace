@@ -1,0 +1,10 @@
+{% if user.is_authenticated %}
+Что такое, {{ user.username }}? Вы же уже авторизорваны. 
+Впрочем, всегда можно <a href="{% url auth_logout %}">выйти</a>.<br/><br/>
+{% else %}
+{% include 'registration/login.html' %}
+{% include 'registration/registration_form.html' %}
+{% endif %}
+
+
+

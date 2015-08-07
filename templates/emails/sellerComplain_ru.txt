@@ -1,0 +1,7 @@
+Дорогой {{user}}
+{% autoescape off %}
+Продавец {{seller}} ответил на вашу <a href="http://www.ywaga.com/add_complain/{{cart_id}}">жалобу</a>
+о товаре <a href="http://ywaga.com/product/{{cart.product.id}}">{{cart.product.name}}</a>
+{% endautoescape %}
+текст ответа
+{{message}}

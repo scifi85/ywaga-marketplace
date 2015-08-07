@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block body %}
+<script>
+$(function(){
+    function getURLParameter(name) {
+        return decodeURI(
+                (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+        );
+    }
+    $("#in_money").keyup(function(){
+        if ($(this).val()=='')
+            $("#put_money").addClass("disabled")
+        else
+            $("#put_money").removeClass("disabled");
+    })
+
+        $("#in_money2").keyup(function(){
+        if ($(this).val()=='')
+            $("#put_money2").addClass("disabled")
+        else
+            $("#put_money2").removeClass("disabled");
+    })
+
+        $("#in_money3").keyup(function(){
+        if ($(this).val()=='')
+            $("#put_money3").addClass("disabled")
+        else
+            $("#put_money3").removeClass("disabled");
+    })
+    if (getURLParameter('payment')=='ok')
+        show_message_success(gettext('Сервер обновляет информацию, через несколько минут деньги поступят на ваш счет ywaga.com.'))
+
+})
+</script>    
+<div class="row payment-page">
+		<div class="span6 offset1 add-money well">
+		    <h3>{% trans "Пополнение счета" %}</h3>
+		    <p class="money-info">{% trans "Пополните свой счёт в системе для того, чтобы совершать покупки." %}</p>
+		    <p>{% trans "На вашем счету:" %} <span class="boldspa">{{ user.get_profile.account }} грн.</span></p>
+            <form method="GET" action="{% url make_payment %}">
+		        <div class="input-prepend">
+		                <span class="add-on">грн.</span>
+		                <input type="text" name='amount' maxlength="6" id="in_money" class='onlyFloat' value="" placeholder="{% trans "Сумма пополнения" %}">
+		        </div><br><br><br>
+		        <input type="submit" id="put_money" class="btn btn-success btn-large disabled" value="{% trans "Пополнить" %}">
+            </form>
+            <br>
+            <h4>Наша комиссия 0%</h4>    
+		</div>
+		<div class="span6 get-money well">
+		    <h3>{% trans "Снятие денег со счета" %}</h3>
+			<p class="money-info">{% trans "Выберите необходимую сумму для перевода денег со счёта системы на вашу личную карту." %}</p>
+	    	<p>{% trans "На вашем счету:" %} <span class="boldspa">{{ user.get_profile.account }} грн.</span></p>	    
+	    	   <form method="post" action="{% url take_money %}" class="confirm" rel='{% trans "Снять деньги ?" %}'>{% csrf_token %}
+	    	   	        <div class="input-prepend">
+		                <span class="add-on">#</span>
+		                <input type="text" name='to' maxlength="20" placeholder="{% trans "Укажите ваш номер телефона" %}">
+		        </div>
+		        <div class="input-prepend">
+		            <span class="add-on">грн.</span>
+		            <input name="amount" type="text" maxlength="6" id="in_money2" class="onlyFloat" placeholder="{% trans "Сумма снимаемых средств" %}">
+		        </div> 
+		        <br>
+		        <input type="submit" id="put_money2" class="btn btn-success btn-large disabled" value="{% trans "Снять указанную сумму" %}">
+	    	</form>
+            <h4>Наша комиссия 0%</h4>      
+		</div>
+</div>
+<div class="row payment-page">
+    <div class="span6 get-money well">
+        <h3>{% trans "Перевод денег" %}</h3>
+        <p class="money-info">{% trans "Выберите необходимую сумму для перевода денег со счёта системы другому пользователю." %}</p>
+        <p>На вашем счету: <span class="boldspa">{{ user.get_profile.account }} грн.</span></p>
+        <form method="post" action="{% url send_money %}" class='confirm' rel='{% trans "Перевести ?" %}'>{% csrf_token %}
+            <div class="input-prepend">
+                <span class="add-on">#</span>
+                <input type="text" placeholder="{% trans "Укажите ник юзера" %}" name='username'>
+            </div>
+            <div class="input-prepend">
+                <span class="add-on">грн.</span>
+                <input name="amount" type="text" maxlength="6" id="in_money3" class='onlyFloat' placeholder="{% trans "Сумма предаваемых средств" %}">
+            </div>
+            <br>
+            <input type="submit" id="put_money3" class="btn btn-success btn-large disabled" value="{% trans "Перевести сумму" %}">
+        </form>
+        <h4>Наша комиссия 0%</h4>
+    </div>
+    {%  if payments %}
+
+	<div class="span6">
+		<h3 class="money-history-head">{% trans "История движения средств на счету" %}</h3>
+		<table class="table table-striped table-condensed">
+		    <thead>
+			    <tr>
+			        <th>{% trans "Движение средств" %}</th>
+                    <th>{% trans "Дата" %}</th>
+                </tr>
+		    </thead>
+		    <tbody>
+                {% for payment in payments.all %}
+		        <tr>
+                    <td>{{ payment.text }} <td></td>
+                    <td>{{ payment.create_date}}</td>
+                </tr>
+                {% endfor %}
+		    </tbody>
+		</table>
+	</div>
+	{% endif %}
+</div>
+
+<div id="howpay" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Как оплачивать покупки?</h3>
+  </div>
+  <div class="modal-body">
+    <p class="warn2">Для того, чтобы максимально упростить процедуру покупки на <b>ywaga.com</b> мы ввели персональные счета для каждого пользователя. При наличии денег на счету вы можете совершать платежи одним кликом</p>
+    <div class="procedure">
+      <p><span class="badge badge-pay">1</span> Введите нужную сумму денег в меню Счёт - Пополнение счёта</p>
+      <img src="/static/img/payacc.png" alt="">  
+    </div>
+    <div class="procedure">
+      <img src="/static/img/arrdash.png" alt="">
+    </div>
+    <div class="procedure">
+      <p><span class="badge badge-pay">2</span> Введите свой номер телефона для перевода денег с вашей карты с помощью системы Liqpay</p>
+      <img src="/static/img/lp.PNG" alt="">  
+    </div>
+    <div class="procedure">
+      <img src="/static/img/arrdash.png" alt="">
+    </div>
+    <div class="procedure">
+      <p><span class="badge badge-pay">3</span> Введите данные вашей кредитной карты</p>
+      <img src="/static/img/cc.png" alt="">  
+    </div>
+    <div class="procedure">
+      <p><span class="badge badge-pay">4</span> Готово! Ваш счёт пополнен. Оплачивайте ваши покупки одним кликом!</p> 
+    </div>
+    <a href="https://liqpay.com/" target="_blank">Официальная страница Liqpay</a>
+    <br>
+    <a href="/how-pay/" target="_blank">Страница помощи по системе оплаты</a>
+    <p class="warn">Не забывайте, что совершать покупки с помощью Liqpay не только удобно, но еще и выгодно! При <b>наложенном платеже</b> в транспортной компании вы теряете <b>2%</b> от суммы каждой покупки. <b>С платёжной системой Liqpay вы не теряете ничего!</b></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-large btn-success" data-dismiss="modal" aria-hidden="true">Хорошо, продолжим</button>
+  </div>
+</div>
+
+<script>$('#howpay').modal();</script>
+{% endblock %}

@@ -1,0 +1,20 @@
+<script type="text/javascript">
+    document.getElementById('complain_form').action='';
+</script>
+Price: {{ complain.cart.full_price }} <br>
+Name: {{ complain.cart.product.name }}<br>
+Seller({{ complain.seller}}) account {{ complain.seller.get_profile.account }}<br>
+Buyer({{ complain.buyer}}) account {{ complain.buyer.get_profile.account }}<br>
+<br><br><br>
+{% for comment in complain.comments.all %}
+<div>
+    {{ comment.user }}: {{ comment.text }}
+</div>
+{% endfor %}
+<br><br>
+{% if not complain.is_refund_complete  %}
+    <input type="checkbox" name="buyer_win"> Buyer win <br>
+    <input type="checkbox" name="seller_win"> Seller win <br>
+{% endif %}
+Complain:
+<textarea name="complain"></textarea>

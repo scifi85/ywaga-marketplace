@@ -1,0 +1,4 @@
+Дорогой {{user}},
+Жалоба {{complain.id}}, по заказу {{complain.order.id}}
+за товар {{complain.cart.product.name}} удовлетворенна в пользу {{complain.buyer}}
+{{complain.refund}}$ были перечисленны {{complain.buyer}}

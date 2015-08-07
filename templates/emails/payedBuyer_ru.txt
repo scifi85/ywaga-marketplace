@@ -1,0 +1,3 @@
+Вы оплатили {{order.price}} .грн за заказ {{order.id}}
+
+http://www.ywaga.com/orders/

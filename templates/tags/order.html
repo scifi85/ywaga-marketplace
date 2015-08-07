@@ -1,0 +1,175 @@
+{% load cart_tags %}
+{% load i18n %}
+<script>
+    $('.cancel-order, .track_code, .svyazat').tooltip();
+</script>
+<div class="accordion-group">
+
+    <a class="accordion-toggle" data-toggle="collapse" data-target="#{{ order.id }}"><span>{% trans "Заказ" %} #{{ order.id }}</span>
+        <span>Статус:
+            {% autoescape off %}
+            {{ order.status|statusTrans:LANGUAGE_CODE }}
+            {% endautoescape %}
+        </span> <span>{% trans "Сумма:" %} {{ order.price }} грн.</span></a>
+
+    <div class="one-order collapse" id="{{ order.id }}">
+        {% ifequal who 'seller' %}
+
+            <a href="{% url send_message order.buyer %}" class="btn btn-mini btn-success svyazat" data-placement="right" title="Напишите письмо покупателю для обсуждения всех деталей сделки">
+            <i class="icon-white icon-envelope"></i> Связаться с покупателем
+            </a>
+            <span class="payed-date">
+                {% trans "Покупатель:" %}
+                <i><a href ="{% url send_message order.buyer %}">{{ order.buyer }}</a></i>
+            </span>   
+            {% ifnotequal order.status 'Closed' %}
+                    <a class="cancel-order inputFieldConfirm btn btn-danger btn-mini" rel='{% trans "Пожалуйста, напишите причину отклонения заказа и подтвердите действие" %}' rev="{% trans "Отклонение заказа" %}" href="{% url cancel_order order.id %}"  title="{% trans "Вы можете отклонить заказ, написав причину отказа. Например товар закончился либо любую другую причину." %}" data-placement='left'>{% trans "Отклонить" %}</a>
+            {% endifnotequal %}           
+        {% else %}
+            <span class="payed-date">{% trans "Продавец:" %} 
+
+                    {% autoescape off %}
+                        <a href="{% url send_message order.seller %}" class="sendmsg" title="написать пользователю"><i class="icon-envelope icon-white"></i></a>
+                        {{ order.seller.get_profile.shop }}
+                    {% endautoescape %}
+            </span>
+            <div class="cont">
+                <table class="table table-condensed">
+                    <thead>
+                        <th>Имя</th>
+                        <th>Телефон</th>
+                        <th>Skype</th> 
+                        <th>Дата регистрации</th>   
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ order.seller.get_profile.name }}</td>
+                            <td>{{ order.seller.get_profile.phone }}</td>
+                            <td>{{ order.seller.get_profile.skype }}</td>
+                            <td>{{ order.seller.date_joined|date:"d.m.y"}}</td>                         
+                        </tr>                        
+                    </tbody>
+                </table>
+            </div>    
+            
+                
+            {% if not order.is_payed %}
+                <a class="delete-order confirm" rel='{% trans "Вы уверены, что хотите удалить заказ" %} #{{ order.id }}' href="{% url delete_order order.id %}"  title="{% trans "Удалить заказ" %}">&#10006;</a>
+            {% endif %}
+        {% endifequal %}
+
+            
+
+        <span class="payed-date">{% trans "Номер заказа:" %} <i>{{ order.id }}</i></span>
+
+        <span class="payed-date">{% trans "Адрес:" %} 
+        <i>{{ order.country }},
+        {{ order.region }},
+        {{ order.city }},
+        {{ order.street }},
+        {{ order.zip_code }}</i></span>
+
+        <b>{{ order.shop }}</b>
+ 
+        {% if track %}
+            <form action="{% url upload_track_code order.id %}" method="GET">
+                <span class="payed-date">{% trans "Трекинг код:" %} </span>
+                <input type="text" name='code' value="{{ order.track_code }}" rel="{{ order.id }}" maxlength="25" placeholder="Укажите номер накладной посылки">
+                <input type="submit" class="btn btn-info track_code" value="{% trans "Отправить" %}" order="{{ order.id }}" style="vertical-align: top" title="После отправки номера накладной сделка считается завершенной и покупатель может оставить отзыв на купленный товар." data-placement='right'>
+            </form>
+        {% else %}
+            {% if order.sent_date %}
+                <span class="payed-date">{% trans "Трекинг код:" %} <i>{{ order.track_code }}</i></span>
+
+                <span class="payed-date">{% trans "Заказ отправлен:" %} <i>{{ order.sent_date }}</i></span>
+
+            {% endif %}
+            {% ifequal order.status 'Sent' %}
+                <td> <a href ="{% url confirm_delivering order.id%}" class='confirm btn btn-success' rel='{% trans "Подтвердить доставку товара" %} ?'>{% trans "Подтвердить доставку" %}</a></td>
+            {% endifequal %}
+        {% endif %}
+
+        <span class="payed-date">{% trans "Статус заказа:" %}
+            <i>
+                {% autoescape off %}
+                    {{ order.status|statusTrans:LANGUAGE_CODE }}
+                {% endautoescape %}
+            </i></span>
+        {% if order.is_canceled %}
+            <span class="payed-date">{% trans "Причина отказа: " %} <i>{{ order.cancelReason }}</i></span>
+        {% endif %}
+
+
+
+        <table class="table table-striped table-condensed">
+            <thead>
+            <tr>
+                <th><span class="label">{% trans "Фото" %}</span></th>
+                <th><span class="label">{% trans "Название" %}</span></th>
+                <th><span class="label">{% trans "Цена товара" %}</span></th>
+                <th><span class="label">{% trans "Кол-во" %}</span></th>
+                <th><span class="label">{% trans "Доставка" %}</span></th>
+                <th><span class="label">{% trans "Общая сумма" %}</span></th>
+                <th><span class="label">{% trans "Инфо" %}</span></th>
+                <th class="td-del"><span class="label">{% trans "Действие" %}</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in order.carts.all %}
+                {% if item.is_deleted %}
+                    <tr bgcolor="#ff9999">
+                {% else %}
+                    <tr>
+                {% endif %}
+                    <td><a href="{% url product item.product.id %}" class="item_pic"><img src="/media/{{ item.product.small_picture }}" alt=""></a></td>
+                    <td><a class="item-name-order" href="{% url product item.product.id %}"> {{ item.product.name }}</a></td>
+
+                {% if change %}
+                        <td> <input type="text" class='price' value="{{ item.price }}" rel="{{ item.id }}" maxlength="5">  </td>
+                        <td> <input type="text" class="quantity" value="{{ item.quantity }}" rel="{{ item.id }}" maxlength="4"> </td>
+                        <td> <input type="text" class="delivery" value="{{ item.delivery }}" rel="{{ item.id }}" maxlength="4"></td>
+                    {% else %}
+                        <td>{{ item.price }} грн. </td>
+                        {% ifequal order.status 'Not payed' %}
+                            <td> <input type="text" class="quantity" style="width: 50px;" value="{{ item.quantity }}" rel="{{ item.id }}"> </td>
+                        {% else %}
+                            <td>{{ item.quantity }} </td>
+                        {% endifequal %}
+                        <td>{{ item.delivery }} грн.</td>
+                    {% endif %}
+                    <td>
+                        <span id="full_price_{{ item.id }}"> {{ item.full_price }} </span> грн.
+                    </td>
+                    <td>
+                        {% if item.color.color %}
+                            {% trans "Цвет" %}: {{ item.color.color|colorTrans:LANGUAGE_CODE }}<br>
+                        {% endif %}
+                        {% if item.size.size %}
+                            {% trans "Размер" %}: {{ item.size.size }}<br>
+                        {% endif %}
+                        {% if item.type.name %}
+                            {% trans "Тип" %}: {{ item.type.name }}
+                        {% endif %}
+                    </td>
+                    <td class="td-del">
+                    {% if not order.is_payed %}
+                        <a href="{% url delete_cart item.id %}" title="{% trans "Удалить" %}"><span class="label label-important"><i class="icon-trash icon-white"></i></span></a>
+                    {% endif %}
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="summ-cart">{% trans "Сумма заказа:" %} <span id="sum"><span id='order_price_{{ order.id }}'> {{ order.price }}</span> грн.</span></p>
+        {% if order.payed_date %}
+        <span class="payed-date">{% trans "Дата оплаты" %}: <i>{{ order.payed_date|date:"d.m.y" }}</i></span>
+        {% endif %}
+        <!-- {% ifequal who 'buyer' %}
+            {% if not order.is_payed %}
+                <a href="{% url pay order.id %}" class="btn btn-success btn-large confirm oplata-bottom" rel='{% trans "Сделать заказ ?" %} ?'>{% trans "Сделать заказ" %}</a>
+            {% endif %}
+        {% endifequal %} -->
+    </div>
+</div>
+

@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load cart_tags %}
+
+{% block header %}
+<!-- Google Analytics Content Experiment code -->
+<script>function utmx_section(){}function utmx(){}(function(){var
+k='64291676-1',d=document,l=d.location,c=d.cookie;
+if(l.search.indexOf('utm_expid='+k)>0)return;
+function f(n){if(c){var i=c.indexOf(n+'=');if(i>-1){var j=c.
+indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
+length:j))}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
+'<sc'+'ript src="'+'http'+(l.protocol=='https:'?'s://ssl':
+'://www')+'.google-analytics.com/ga_exp.js?'+'utmxkey='+k+
+'&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
+valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
+'" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
+</script><script>utmx('url','A/B');</script>
+<!-- End of Google Analytics Content Experiment code -->
+{% endblock %}
+
+{% block body %}
+<div class="first-pag">
+<div id="myCarousel" class="carousel slide">
+  <!-- <ol class="carousel-indicators">
+    <li data-target="#myCarousel" class="active"></li>
+    <li data-target="#myCarousel"></li>
+    <li data-target="#myCarousel"></li>
+  </ol> -->
+  <!-- Carousel items -->
+  <div class="carousel-inner">
+    <div class="item active">
+        <img src="/static/img/basic1.jpg" alt="Шопинг-платформа ywaga.com.">
+        <div class="buttons-action">
+            <a href="/about-ywaga/" class="btn btn-large">Подробнее о проекте</a>
+            <a href="/accounts/login/" class="btn btn-large btn-success">Зарегестрируйте меня!</a>
+        </div>
+    </div>
+    <div class="item">
+        <img src="/static/img/basic2.jpg" alt="Шопинг-платформа ywaga.com. Товары из Китая и Украины.">
+        <div class="buttons-action">
+            <a href="/how-sell/" class="btn btn-large">Как продавать?</a>
+            <a href="/accounts/login/" class="btn btn-large btn-success">Стать продавцом!</a>
+        </div>
+    </div>
+    <div class="item">
+        <img src="/static/img/basic3.jpg" alt="Шопинг-платформа ywaga.com. Товары из Китая и Украины.">
+        <div class="buttons-action">
+            <a href="/how-buy/" class="btn btn-large">Как покупать?</a>
+            <a href="/accounts/login/" class="btn btn-large btn-success">Хочу купить что-нибудь!</a>
+        </div>
+    </div>
+  </div>
+  <!-- Carousel nav -->
+  <a class="carousel-control left" href="#myCarousel" data-slide="prev" data-interval="5000">&lsaquo;</a>
+  <a class="carousel-control right" href="#myCarousel" data-slide="next" data-interval="5000">&rsaquo;</a>
+</div>
+
+
+    <div class="block-info">
+        <div class="news-holder">
+            <h2 class="newsholder-header">{% trans "Новости" %}</h2>
+            <div class="news">
+                {% autoescape off %}
+                <div class="news-head">
+                    <a href="{% url showOne lastNews.id %}" title="{% trans "Текст новости целиком" %}"><h4>{{ lastNews.name }}</h4></a>
+                    <span class="news-date">{{ lastNews.date|date:"d.m.y" }}</span>
+                </div>
+                <div class="news-body">
+                    {{ lastNews.short }}
+                </div>
+                {% endautoescape %}
+                <div class="news-block-footer">
+                    <a href="{% url showNews %}">{% trans "Показать все" %}</a>
+                </div>
+            </div>
+        </div>
+        <div class="info-holder">
+            <a href="/search_by_categories/50050428/"><img src="/static/img/cat1.png" alt=""></a>
+            <!-- <a href="/how-buy/" class="howbuy">{% trans "Как купить?" %}</a>
+            <a href="/how-sell/" class="howsell">{% trans "Как продать?" %}</a> -->
+        </div>
+        <div class="info-holder">
+            <a href="/search_by_categories/50050379/"><img src="/static/img/cat2.png" alt=""></a>
+        </div>
+    </div>
+    <div class="rec-items">
+        <h2 class="rec-h2">Рекомендуемые товары</h2>
+        <hr class="rechr">
+		<ul class="recommend-items">
+			<li>
+                {% include 'tags/recommendedProduct.html' with product='709'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='694'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='656'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='649'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='688'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='681'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='639'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='665'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='678'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='581'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='668'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='628'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='612'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='580'|recommended_product %}
+            </li>
+            <li>
+                {% include 'tags/recommendedProduct.html' with product='589'|recommended_product %}
+            </li>
+		</ul>
+    <div class="clear"></div>
+    </div>      
+    <div class="rec-items">
+        <h2 class="rec-h2">Новые товары</h2>
+        <hr class="rechr">
+        <ul class="recommend-items">
+
+                {% for product in newProducts %}
+                    <li>
+                        <a href="{% url product product.id %}">
+                            <img src="/media/{{ product.picture }}" alt="">
+                            <span class="read-more">{% trans "Подробнее" %}</span>
+                        </a>
+                        <div class="floating-info">
+                                <span class="price-thumb">
+                                    {% if product.is_promotion %}
+                                        {{ product.promotion_price }} грн.
+                                <span class="promoprice"><strike>{{ product.price }} грн.</strike></span>
+                                    {% else %}
+                                        {{ product.price }} грн.
+                                    {% endif %}
+                                </span>
+                                
+                                <a href="{% url product product.id %}" class="prod-thumb-head" title="{{ product.name }}">{{ product.name }}</a>
+                        </div>
+                    </li>
+                {% endfor %}
+
+
+        </ul>
+        <div class="clear"></div>
+    </div>       
+	</div>
+</div>   
+ <script>
+     $('.carousel').carousel('cycle');  
+ </script>   
+ 
+{% endblock %}

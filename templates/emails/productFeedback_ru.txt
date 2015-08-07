@@ -1,0 +1,3 @@
+Здравствуйте, {{user}} !
+Покупатель {{who}}
+оставил комментарий {{message}} о товаре <a href="http://www.ywaga.com/product/{{product.id}}/">{{product.name}}</a>

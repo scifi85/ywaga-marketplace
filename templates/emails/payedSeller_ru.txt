@@ -1,0 +1,4 @@
+Здравствуйте {{user}} !
+Покупатель {{buyer}} оплатил {{order.price}} .грн за заказ #{{order.id}}
+
+http://www.ywaga.com/shop/orders/

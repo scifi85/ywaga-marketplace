@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block body %}
+<div class="span3"></div>
+<div class="span6">
+    <p class="last-event">{% trans "Последние события:" %}</p>
+    <table class="table table-striped table-condensed wallmore">
+        <thead>
+        <tr>
+            <th>{% trans "Событие" %}</th>
+            <th>{% trans "Дата" %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% autoescape off %}
+        {% for record in records %}
+            <tr>
+                <td>{{ record.text }}</td>
+                <td>{{ record.create_date|date:"d.m.y" }}</td>
+            </tr>
+        {% endfor %}
+        {% endautoescape %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

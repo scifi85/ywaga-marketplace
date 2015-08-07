@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <th>user</th>
+        <th>text</th>
+        <th>date</th>
+    </thead>
+    <tbody>
+    {% for comment in comments %}
+    <tr>
+        <td>{{ comment.user }}</td>
+        <td>{{ comment.text }}</td>
+        <td>{{ comment.create_date }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

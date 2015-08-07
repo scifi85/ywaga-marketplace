@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wall_tags %}
+{% block body %}
+    <div class="cart-page">
+
+            <ul class="nav nav-pills nav-stacked breadcrumbs">
+                <li class="nav-header">{% trans "Меню покупателя:" %}</li>
+
+                <li>
+                    <a href="{% url cart %}"><i class="icon-shopping-cart"></i> {% trans "Корзина" %}</a>
+                </li>
+                <li>
+                    <a href="{% url orders %}"><i class="icon-calendar"></i> {% trans "Заказы" %}</a>
+                </li>
+
+
+            </ul>
+        <div class="row">
+            <div class="span8">
+                <!--Body content-->
+                {% block content %} {% endblock %}
+            </div>
+
+                {% display_wall user %}
+
+        </div>
+    </div>
+        <!--End of Body content-->
+<script type="text/javascript">
+$(function(){
+   var path = location.pathname.substring(1);
+   if ( path )
+     $('.breadcrumbs a[href$="' + path + '"]').attr('class', 'current');
+ });
+</script>
+{% endblock %}
+
+

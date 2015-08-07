@@ -1,0 +1,7 @@
+Dear seller {{user}}
+Buyer {{buyer}}  <a href="http://www.ywaga.com/shop/add_complain/{{cart_id}}">complain you</a>
+ask refund {{refund}}
+about product <a href="http://ywaga.com/product/{{cart.product.id}}">{{cart.product.name}}</a>
+
+complain message
+{{message}}

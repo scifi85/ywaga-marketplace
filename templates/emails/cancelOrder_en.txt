@@ -1,0 +1,3 @@
+Dear {{user}}
+Order #{{order.id}} is canceled,
+Money {{order.refused}}$ sended to your account

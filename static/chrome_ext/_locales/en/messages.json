@@ -1,0 +1,20 @@
+{
+    "extName": {
+        "message": "Ywaga add product"
+    },
+    "extDescr": {
+        "message": "http://www.ywaga.com. allows their customers to add products to own shop"
+    },
+    "Addtocart": {
+        "message": "Add product?"
+    },
+    "AddedToCart":{
+        "message" : "Product added to shop"
+    },
+    "PlsRegister":{
+        "message":"Please, register"
+    },
+    "ProductAdded":{
+        "message":"Product added"
+    }
+}

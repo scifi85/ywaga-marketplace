@@ -1,0 +1,1491 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-01 16:27+0200\n"
+"PO-Revision-Date: 2012-11-01 16:28\n"
+"Last-Translator:   <dd@dd.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.6.0\n"
+
+#: settings.py:50
+msgid "Russian"
+msgstr "Россия"
+
+#: settings.py:51
+msgid "English"
+msgstr ""
+
+#: cart/models.py:111
+msgid "Покупатель"
+msgstr "Buyer"
+
+#: cart/models.py:156 registr/models.py:88
+msgid "Страна"
+msgstr "Country"
+
+#: cart/models.py:157
+msgid "Область"
+msgstr "Region"
+
+#: cart/models.py:158
+msgid "Город"
+msgstr "City"
+
+#: cart/models.py:159
+msgid "Улица"
+msgstr "Street"
+
+#: cart/models.py:160
+msgid "Почтовый индекс"
+msgstr "Zip code"
+
+#: cart/models.py:161 registr/models.py:96
+msgid "Телефон"
+msgstr "Phone number"
+
+#: cart/views.py:162
+msgid "Вы не можете купить свой товар"
+msgstr "You can't buy own product"
+
+#: cart/views.py:170
+msgid "Не достаточно товара, уменьшите количество"
+msgstr "Not enough product, decrease quantity"
+
+#: cart/views.py:219
+msgid "Товар добавлен в корзину"
+msgstr "Product added to Cart"
+
+#: cart/views.py:263
+msgid "Вы не можете купить товар у самого себя"
+msgstr "You can't buy own product"
+
+#: cart/views.py:403
+msgid "Деньги перечислены обратно на счет покупателя "
+msgstr "Money back to buyer's account"
+
+#: cart/views.py:429
+msgid "Деньги с вашого счета перечислены обратно на счет покупателя "
+msgstr "Money from your account back to buyer's account"
+
+#: cart/views.py:431
+msgid "Не достаточно денег"
+msgstr "Not enough money"
+
+#: cart/views.py:451
+msgid "Максимально доступное количество товара "
+msgstr "Maximum product quantity"
+
+#: cart/views.py:481
+msgid "Заказ оплачен"
+msgstr "Order payed successfully"
+
+#: cart/views.py:485
+msgid "У вас на счету недостаточно средств"
+msgstr "You haven't enough money on your account"
+
+#: comments/views.py:38 comments/views.py:74
+msgid "Вы не можете написать сообщение самому себе"
+msgstr "You can't send message to yourself"
+
+#: payments/views.py:134
+msgid "Не достаточно денег на вашем счету"
+msgstr "Not enough money on your account."
+
+#: registr/forms.py:25 shop/models.py:24
+#: templates/manage_shop/add-product.html:135
+msgid "Украина"
+msgstr "Ukraine"
+
+#: registr/forms.py:26 shop/models.py:25
+#: templates/manage_shop/add-product.html:136
+msgid "Россия"
+msgstr "Russia"
+
+#: registr/forms.py:27 shop/models.py:26
+#: templates/manage_shop/add-product.html:137
+msgid "Китай"
+msgstr "China"
+
+#: registr/forms.py:30 registr/models.py:87
+msgid "Имя"
+msgstr "Name"
+
+#: registr/forms.py:31
+msgid "Страна проживания"
+msgstr "Country"
+
+#: registr/forms.py:40 registr/forms.py:49
+msgid "username"
+msgstr ""
+
+#: registr/forms.py:42 registr/forms.py:55
+msgid "password"
+msgstr ""
+
+#: registr/forms.py:52
+msgid "email address"
+msgstr ""
+
+#: registr/forms.py:58
+msgid "password (again)"
+msgstr ""
+
+#: registr/forms.py:71
+msgid "Имя должно быть больше 5ти симоволов"
+msgstr "The name must be longer than 5 symbols"
+
+#: registr/forms.py:74
+msgid "Запрещеное имя"
+msgstr ""
+
+#: registr/forms.py:79
+msgid "This username is already taken. Please choose another."
+msgstr ""
+
+#: registr/forms.py:97
+msgid "You must type the same password each time"
+msgstr ""
+
+#: registr/forms.py:116
+msgid "I have read and agree to the Terms of Service"
+msgstr ""
+
+#: registr/forms.py:134
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+
+#: registr/forms.py:160
+msgid ""
+"Registration using free email addresses is prohibited. Please supply a "
+"different email address."
+msgstr ""
+
+#: registr/models.py:85
+msgid "user"
+msgstr ""
+
+#: registr/models.py:86
+msgid "activation key"
+msgstr ""
+
+#: registr/models.py:94
+msgid "Адрес"
+msgstr "Address"
+
+#: registr/models.py:107
+msgid "Описание"
+msgstr "Description"
+
+#: registr/models.py:111
+msgid "registration profile"
+msgstr ""
+
+#: registr/models.py:112
+msgid "registration profiles"
+msgstr ""
+
+#: registr/views.py:77
+msgid "Ваш пароль успешно изменен"
+msgstr "Your password was successfully changed "
+
+#: shop/forms.py:16 shop/forms.py:18 templates/manage_shop/search.html:25
+msgid "Цена"
+msgstr "Price"
+
+#: shop/forms.py:20 templates/manage_shop/search.html:24
+#: templates/tags/cart.html:22 templates/tags/order.html:73
+msgid "Название"
+msgstr "Name"
+
+#: shop/forms.py:22 templates/manage_shop/search.html:26
+msgid "Количество"
+msgstr "Quantity"
+
+#: shop/forms.py:24
+msgid "Дни"
+msgstr "Days"
+
+#: shop/models.py:50
+msgid "Ключевый слова"
+msgstr "Keyword"
+
+#: shop/models.py:71
+msgid "Доставка по стране"
+msgstr "Domestic delivery "
+
+#: shop/models.py:72 templates/manage_shop/add-product.html:148
+msgid "Доставляете за пределы своей страны ?"
+msgstr "Is external ?"
+
+#: shop/models.py:73
+msgid "Цена международной доставки"
+msgstr "External delivery price"
+
+#: shop/models.py:174
+msgid "Комментарий не может быть пустым"
+msgstr "Comment can't be empty"
+
+#: shop/models.py:176
+msgid "Нет комментариев в запросе"
+msgstr "No comments in request"
+
+#: shop/models.py:178
+msgid "Запрос не POST или комментирования запрещенно."
+msgstr "Request must be POST"
+
+#: templates/base.html:59
+msgid "мои покупки"
+msgstr "my purchases"
+
+#: templates/base.html:63 templates/cart/base.html:11
+msgid "Корзина"
+msgstr "Cart"
+
+#: templates/base.html:64 templates/base.html.py:76
+#: templates/cart/base.html:14
+msgid "Заказы"
+msgstr "Orders"
+
+#: templates/base.html:71
+msgid "мой магазин"
+msgstr "my shop"
+
+#: templates/base.html:75
+msgid "Товары"
+msgstr "Products"
+
+#: templates/base.html:77 templates/manage_shop/base.html:17
+#: templates/manage_shop/contacts.html:10
+msgid "Контакты"
+msgstr "Contacts"
+
+#: templates/base.html:81
+msgid "Привет"
+msgstr "Hello"
+
+#: templates/base.html:81
+msgid "Счёт"
+msgstr "Account"
+
+#: templates/base.html:81
+msgid "счёт"
+msgstr "account"
+
+#: templates/base.html:84
+msgid "сообщения"
+msgstr "messages"
+
+#: templates/base.html:89
+msgid "выйти"
+msgstr "quit"
+
+#: templates/base.html:91
+msgid "регистрация \\ войти"
+msgstr "registration \\ login"
+
+#: templates/base.html:126
+msgid "Категории"
+msgstr "Categories"
+
+#: templates/base.html:170
+msgid " | слова для поиска"
+msgstr "| words for search"
+
+#: templates/base.html:171
+msgid "найти"
+msgstr "search"
+
+#: templates/base.html:176
+msgid "корзина"
+msgstr "cart"
+
+#: templates/base.html:196
+msgid "Покупателю"
+msgstr "To Buyer"
+
+#: templates/base.html:197
+msgid "Как покупать?"
+msgstr "How to buy?"
+
+#: templates/base.html:198
+msgid "Поторгуемся?"
+msgstr ""
+
+#: templates/base.html:199
+msgid "Система Защиты Покупок"
+msgstr "Shopping protect system"
+
+#: templates/base.html:200
+msgid "Рейтинги продавцов"
+msgstr "Seller ratings"
+
+#: templates/base.html:203
+msgid "Продавцу"
+msgstr "To Seller"
+
+#: templates/base.html:204
+msgid "Стать продавцом легко!"
+msgstr "It's easy to become a Seller!"
+
+#: templates/base.html:205
+msgid "Как продавать на ywaga.com"
+msgstr "How to sell at ywaga.com"
+
+#: templates/base.html:206
+msgid "Добавление нового товара"
+msgstr "Add new  product:"
+
+#: templates/base.html:207
+msgid "Добавить товар с Taobao"
+msgstr "Add item from Taobao"
+
+#: templates/base.html:210
+msgid "О нас"
+msgstr "About Us"
+
+#: templates/base.html:211
+msgid "Что такое Увага?"
+msgstr "What's Ywaga?"
+
+#: templates/base.html:212
+msgid "Удобная система платежей"
+msgstr "Convenient transfer money system"
+
+#: templates/base.html:213 templates/public/first_page.html:6
+msgid "Новости"
+msgstr "News"
+
+#: templates/base.html:214
+msgid "Информация о компании"
+msgstr "Info about company"
+
+#: templates/base.html:215
+msgid "Инвесторам"
+msgstr "To Investor"
+
+#: templates/base.html:216
+msgid "Вакансии на ywaga.com"
+msgstr "Jobs at ywaga.com"
+
+#: templates/base.html:219
+msgid "Свяжитесь с нами"
+msgstr "Connections"
+
+#: templates/base.html:220
+msgid "Написать нам"
+msgstr "Write to us"
+
+#: templates/base.html:221
+msgid "Facebook"
+msgstr "Facebook"
+
+#: templates/base.html:222
+msgid "Vkontakte"
+msgstr "Vkontakte"
+
+#: templates/base.html:244 templates/base.html.py:280
+#: templates/manage_shop/search.html:77
+#: templates/registration/registration_form.html:71
+msgid "Нет"
+msgstr "No"
+
+#: templates/base.html:245 templates/base.html.py:281
+#: templates/manage_shop/search.html:78
+#: templates/registration/registration_form.html:72
+msgid "Да"
+msgstr "Yes"
+
+#: templates/cart/base.html:8
+msgid "Меню покупателя:"
+msgstr "Buyer's menu"
+
+#: templates/cart/make_payment.html:18
+msgid "Сумма транзакции:"
+msgstr "Sum of transfer"
+
+#: templates/cart/make_payment.html:20
+msgid ""
+"Это сумма, которая будет переведена на счёт продавца с помощью "
+"платёжных систем Liqpay или Paypal на выбор."
+msgstr ""
+"This is the amount to be transferred to the seller's account by "
+"payment system Paypal or Liqpay to choose from."
+
+#: templates/cart/make_payment.html:23
+msgid "Оплатить с помощью Liqpay"
+msgstr "Pay by Liqpay"
+
+#: templates/cart/make_payment.html:29
+msgid ""
+"Нажав на эту кнопку вы попадете на официальную страницу Liqpay, где "
+"сможете совершить ваш платёж, указав номер карты и номер телефона для "
+"верификации."
+msgstr ""
+"Clicking this button will provide you to an official Liqpay page. "
+"There you can do money transfer. Just write your credit card number "
+"and phone number for verification."
+
+#: templates/cart/message.html:20
+msgid "Разговор с пользователем:"
+msgstr "Chat with user:"
+
+#: templates/cart/message.html:44 templates/tags/complain.html:94
+msgid "Текст сообщения"
+msgstr "Message text"
+
+#: templates/cart/message.html:46 templates/tags/complain.html:95
+#: templates/tags/order.html:44
+msgid "Отправить"
+msgstr "Send"
+
+#: templates/cart/message.html:47 templates/manage_shop/add-product.html:360
+#: templates/manage_shop/add-product.html:388
+msgid "Отмена"
+msgstr "Cancel"
+
+#: templates/cart/orders.html:26 templates/manage_shop/orders.html:32
+msgid "Неоплаченные заказы"
+msgstr "Unpaid orders"
+
+#: templates/cart/orders.html:27 templates/manage_shop/orders.html:31
+msgid "Оплаченные заказы"
+msgstr "Paid orders"
+
+#: templates/cart/orders.html:28 templates/manage_shop/orders.html:33
+msgid "Завершенные сделки"
+msgstr "Closed orders"
+
+#: templates/cart/orders.html:41 templates/cart/orders.html.py:78
+#: templates/cart/show_messages.html:61 templates/manage_shop/orders.html:44
+#: templates/manage_shop/orders.html:59 templates/manage_shop/orders.html:75
+#: templates/manage_shop/search.html:57 templates/tags/complain.html:80
+#: templates/tags/products.html:46 templates/tags/products.html.py:99
+msgid "из"
+msgstr "from"
+
+#: templates/cart/orders.html:87
+msgid "У Вас пока нет заказов"
+msgstr "You haven't any order yet"
+
+#: templates/cart/payments.html:38
+msgid "Пополнение счета"
+msgstr "Increase of an account"
+
+#: templates/cart/payments.html:39
+msgid ""
+"Пополните свой счёт в системе для того, чтобы пользоваться функцией "
+"безопасных покупок."
+msgstr "Increase your system account to use a feature of safe purchases"
+
+#: templates/cart/payments.html:40 templates/cart/payments.html.py:52
+msgid "На вашем счету:"
+msgstr "Your account: "
+
+#: templates/cart/payments.html:44
+msgid "Сумма пополнения"
+msgstr "Amount of transfer"
+
+#: templates/cart/payments.html:46
+msgid "Пополнить"
+msgstr "Pay"
+
+#: templates/cart/payments.html:50
+msgid "Снятие денег со счета"
+msgstr "Withdrawal of money"
+
+#: templates/cart/payments.html:51
+msgid ""
+"Выберите необходимую сумму для перевода денег со счёта системы на вашу "
+"личную карту."
+msgstr ""
+"Choose an amount for money transfer from your system account to your "
+"credit card"
+
+#: templates/cart/payments.html:53
+msgid "Снять деньги ?"
+msgstr "Withdraw ?"
+
+#: templates/cart/payments.html:56
+msgid "Укажите ваш номер телефона"
+msgstr "Write your phone number"
+
+#: templates/cart/payments.html:60
+msgid "Сумма снимаемых средств"
+msgstr "Sum withdrawals"
+
+#: templates/cart/payments.html:63
+msgid "Снять указанную сумму"
+msgstr "Withdraw this sum"
+
+#: templates/cart/payments.html:69
+msgid "Перевод денег"
+msgstr "Money transfer"
+
+#: templates/cart/payments.html:70
+msgid ""
+"Выберите необходимую сумму для перевода денег со счёта системы другому "
+"продавцу."
+msgstr ""
+"Choose an amount for money transfer from your system account to "
+"another seller's account."
+
+#: templates/cart/payments.html:72
+msgid "Перевести ?"
+msgstr "Transfer ?"
+
+#: templates/cart/payments.html:75
+msgid "Укажите ник юзера"
+msgstr "Username"
+
+#: templates/cart/payments.html:79
+msgid "Сумма предаваемых средств"
+msgstr "Sum"
+
+#: templates/cart/payments.html:82
+msgid "Перевести сумму"
+msgstr "Transfer money"
+
+#: templates/cart/payments.html:88
+msgid "История движения средств на счету"
+msgstr "The history of the movement of funds in the account"
+
+#: templates/cart/payments.html:92
+msgid "Движение средств"
+msgstr "Movement of funds"
+
+#: templates/cart/payments.html:93 templates/cart/show_messages.html:16
+#: templates/cart/wallMore.html:11 templates/tags/wall.html:9
+msgid "Дата"
+msgstr "Date"
+
+#: templates/cart/show_messages.html:14
+msgid "Пользователь"
+msgstr "User"
+
+#: templates/cart/show_messages.html:15
+msgid "Последнее сообщение"
+msgstr "Last message"
+
+#: templates/cart/show_messages.html:25 templates/cart/show_messages.html:41
+msgid "Новое сообщение"
+msgstr "New message"
+
+#: templates/cart/show_messages.html:27 templates/cart/show_messages.html:43
+msgid "Просмотренное сообщение"
+msgstr "Viewed message"
+
+#: templates/cart/show_messages.html:68
+msgid "У вас нет ни одного сообщения"
+msgstr "You have no message yet"
+
+#: templates/cart/wallMore.html:6 templates/tags/wall.html:4
+msgid "Последние события:"
+msgstr "Last events:"
+
+#: templates/cart/wallMore.html:10 templates/tags/wall.html:8
+msgid "Событие"
+msgstr "Event"
+
+#: templates/manage_shop/add-product.html:102
+msgid "Информация о товаре"
+msgstr "Product info"
+
+#: templates/manage_shop/add-product.html:103
+msgid "Фото товара"
+msgstr "Product photo"
+
+#: templates/manage_shop/add-product.html:107
+msgid "Основная информация:"
+msgstr "Main info:"
+
+#: templates/manage_shop/add-product.html:109
+msgid "Показывать товар в магазине ?"
+msgstr "Product is active ?"
+
+#: templates/manage_shop/add-product.html:112
+#: templates/manage_shop/add-product.html:117
+#: templates/manage_shop/add-product.html:122
+msgid "Обязательное поле"
+msgstr "Required field"
+
+#: templates/manage_shop/add-product.html:128
+msgid ""
+"Укажите здесь основную информацию о товаре: имя товара, цену в долларах"
+" и количество. Количество товара уменьшается автоматически при каждой "
+"его покупке. Также, убрав галочку 'Показывать товар в магазине', вы "
+"сможете скрыть товар и он не будет показан покупателям."
+msgstr ""
+"Here you can specify main information about product: name, price in "
+"USD and quantity. Quantity will decrease after each purchase. If you "
+"remove option 'Product is active ?' nobody will see this product."
+
+#: templates/manage_shop/add-product.html:131 templates/public/show.html:168
+msgid "Доставка:"
+msgstr "Delivery:"
+
+#: templates/manage_shop/add-product.html:146
+msgid "Доставка внутри страны"
+msgstr "Domestic delivery "
+
+#: templates/manage_shop/add-product.html:151
+msgid ""
+"Здесь нужно указать в какой стране вы находитесь, цену доставки в "
+"пределах этой страны, а так же цену доставки в другие страны, если "
+"такая возможность есть (Отметьте галочку 'Доставка в другие страны')."
+msgstr ""
+"Here you can specify your country, delivery price in your country and "
+"external delivery price to other countries, if you can (use checkbox "
+"'External delivery')"
+
+#: templates/manage_shop/add-product.html:154
+msgid "Выбор категории:"
+msgstr "Choose category"
+
+#: templates/manage_shop/add-product.html:157
+msgid "Добавить свою категорию"
+msgstr "Add own category"
+
+#: templates/manage_shop/add-product.html:159
+msgid ""
+"Здесь можно выбрать категорию для вашего товара. Так его легче найти "
+"покупателю. Если ни одна из категорий не подходит - можно добавить свою"
+" собственную, нажав на ссылку 'Добавить свою категорию'. При добавлении"
+" товара с помощью плагина категория будет выставляться автоматически."
+msgstr ""
+"Here you can specify a category for this product. Buyers can easy to "
+"find it."
+
+#: templates/manage_shop/add-product.html:162
+msgid "Добавление характеристик товара:"
+msgstr "Adding another options for the product:"
+
+#: templates/manage_shop/add-product.html:165
+msgid "Добавить цвет"
+msgstr "Add color"
+
+#: templates/manage_shop/add-product.html:169
+msgid "Пожалуйста, выберите нужный цвет"
+msgstr "Please, choose color"
+
+#: templates/manage_shop/add-product.html:205
+#: templates/manage_shop/add-product.html:225
+#: templates/manage_shop/add-product.html:234
+#: templates/manage_shop/add-product.html:272
+#: templates/manage_shop/add-product.html:347
+#: templates/manage_shop/add-product.html:363
+#: templates/manage_shop/search.html:45 templates/tags/cart.html:57
+#: templates/tags/cart.html.py:96 templates/tags/order.html:121
+msgid "Удалить"
+msgstr "Delete"
+
+#: templates/manage_shop/add-product.html:210
+msgid "Добавить размер"
+msgstr "Add size"
+
+#: templates/manage_shop/add-product.html:214
+msgid "Пожалуйста, выберите нужный размер"
+msgstr "Please, choose size"
+
+#: templates/manage_shop/add-product.html:229
+msgid "Добавить тип"
+msgstr "Add type"
+
+#: templates/manage_shop/add-product.html:238
+msgid ""
+"Вы можете добавить такие свойства товара, как цвет, размер и тип. На "
+"случай, если цена у товаров с разными свойствами будет разной - можно "
+"изменить её в поле 'Цена'. Пример: Iphone 4S с типом 'Память 16 Gb' "
+"будет стоить дешевле, чем 'Память 32 Gb'."
+msgstr ""
+"You can add such options of this product like color, size and type. "
+"You can change prices for every option. For example: 'Iphone 4S' with "
+"type '16 Gb' will be cheaper than '32 Gb'."
+
+#: templates/manage_shop/add-product.html:242
+msgid "Описание товара:"
+msgstr "Description:"
+
+#: templates/manage_shop/add-product.html:247
+msgid ""
+"Напишите детальное описание товара, которое будет отображаться в поле "
+"'Описание товара' на странице товара. Постарайтесь описать все "
+"позитивные качества товара, это поможет вам его успешно продать."
+msgstr ""
+"Write a detail description of product. Buyers will see it at product's"
+" page in 'Description' field. Try to describe all the positive sides "
+"of the product, it will help you to successfully sell it."
+
+#: templates/manage_shop/add-product.html:251
+msgid "Опции промо:"
+msgstr "Promo options:"
+
+#: templates/manage_shop/add-product.html:253
+msgid "Товар со скидкой ?"
+msgstr "Discount ?"
+
+#: templates/manage_shop/add-product.html:255
+msgid "Предзаказ ?"
+msgstr "Preorder ?"
+
+#: templates/manage_shop/add-product.html:258
+msgid ""
+"Здесь можно указать скидку для товара. Новая цена будет отображаться "
+"рядом со старой. Так же можно указывать количество дней, которое "
+"потребуется для предзаказа в случае, если товара нет на складе."
+msgstr ""
+"Here you can specify a discount for this product. New price will be "
+"near by old price. Also you can specify number of days for preorder."
+
+#: templates/manage_shop/add-product.html:261
+msgid "Опции поиска:"
+msgstr "Search options:"
+
+#: templates/manage_shop/add-product.html:266
+msgid "Добавить новое ключевое слово"
+msgstr "Add new keyword"
+
+#: templates/manage_shop/add-product.html:271
+msgid "Ключевое слово"
+msgstr "Keyword"
+
+#: templates/manage_shop/add-product.html:276
+msgid ""
+"Это опции для поисковой оптимизации. Здесь можно добавить ключевые "
+"слова, по которым легко находить ваш товар как с помощью поиска на "
+"самом сайте, так и с помощью больших поисковых систем типа Google и "
+"Яндекс."
+msgstr ""
+"This option is for search optimization. You can specify any ketwords "
+"for your product. It will help to find it by our search engine and "
+"other search engines like Google and Yandex."
+
+#: templates/manage_shop/add-product.html:289
+#: templates/manage_shop/add-product.html:335
+msgid "загрузить фото с веб-камеры"
+msgstr "upload picture by wecam"
+
+#: templates/manage_shop/add-product.html:290
+#: templates/manage_shop/add-product.html:336
+msgid "загрузить фото с компьютера"
+msgstr "upload picture from computer"
+
+#: templates/manage_shop/add-product.html:295
+msgid "Фото для слайдера"
+msgstr "Photos for slider"
+
+#: templates/manage_shop/add-product.html:340
+msgid "Дополнительные фото"
+msgstr "Other photos"
+
+#: templates/manage_shop/add-product.html:357
+msgid "Сохранить"
+msgstr "Save"
+
+#: templates/manage_shop/add-product.html:358
+msgid "Сохранить и продолжить"
+msgstr "Save and continue"
+
+#: templates/manage_shop/add-product.html:359
+msgid "Сохранить и добавить новый"
+msgstr "Save and add new"
+
+#: templates/manage_shop/add-product.html:386
+#: templates/manage_shop/search.html:23 templates/tags/cart.html:21
+#: templates/tags/order.html:72
+msgid "Фото"
+msgstr "Photo"
+
+#: templates/manage_shop/add-product.html:387
+msgid "Настройки"
+msgstr "Settings"
+
+#: templates/manage_shop/add-product.html:402
+msgid "Пожалуйста выберите цвет"
+msgstr "Please, choose color"
+
+#: templates/manage_shop/base.html:8
+msgid "Меню продавца:"
+msgstr "Seller's menu"
+
+#: templates/manage_shop/base.html:11
+msgid "Магазин"
+msgstr "Shop"
+
+#: templates/manage_shop/base.html:15
+msgid "Показать заказы"
+msgstr "Show orders"
+
+#: templates/manage_shop/contacts.html:14
+msgid "Магазин:"
+msgstr "Shop:"
+
+#: templates/manage_shop/contacts.html:18 templates/public/shop.html:23
+msgid "Имя:"
+msgstr "Name:"
+
+#: templates/manage_shop/contacts.html:22
+msgid "Рейтинг:"
+msgstr "Rating:"
+
+#: templates/manage_shop/contacts.html:26
+msgid "Продаж:"
+msgstr "Number of purchases:"
+
+#: templates/manage_shop/contacts.html:30 templates/public/shop.html:31
+#: templates/tags/cart.html:91
+msgid "Страна:"
+msgstr "Country:"
+
+#: templates/manage_shop/contacts.html:36 templates/public/shop.html:39
+#: templates/tags/order.html:32
+msgid "Адрес:"
+msgstr "Address:"
+
+#: templates/manage_shop/contacts.html:40 templates/public/shop.html:55
+msgid "Телефон:"
+msgstr "Phone number:"
+
+#: templates/manage_shop/contacts.html:44
+msgid "Skype:"
+msgstr "Skype:"
+
+#: templates/manage_shop/contacts.html:49
+msgid "Изменить"
+msgstr "Edit"
+
+#: templates/manage_shop/contacts.html:67
+msgid "Сохранить изменения"
+msgstr "Save changes"
+
+#: templates/manage_shop/orders.html:85
+msgid "У вас пока нет заказов"
+msgstr "You haven't any order yet"
+
+#: templates/manage_shop/search.html:8
+msgid "Добавить новый товар"
+msgstr "Add new product"
+
+#: templates/manage_shop/search.html:12
+msgid "Уверены ?"
+msgstr "Are you sure ?"
+
+#: templates/manage_shop/search.html:14
+msgid "Удалить выбраные"
+msgstr "Delete selected"
+
+#: templates/manage_shop/search.html:15
+msgid "Удалить все"
+msgstr "Delete All"
+
+#: templates/manage_shop/search.html:28
+msgid "Удаление"
+msgstr "Delete"
+
+#: templates/manage_shop/search.html:45
+msgid "Вы уверены что хотите удалить этот товар?"
+msgstr "Are you really want to delete this product?"
+
+#: templates/manage_shop/search.html:64
+msgid ""
+"У вас пока нет ни одного товара.  Просто нажмите кнопку 'Добавить новый"
+" товар'' и начинайте зарабатывать прямо сейчас!"
+msgstr ""
+"You have no products yet. Just click 'Add new product' button and "
+"start to earn money with us now!"
+
+#: templates/manage_shop/search.html:74
+msgid "Вы хотите стать доверенным продавцом ?"
+msgstr "Are you want to be trustable seller ?"
+
+#: templates/news/showAll.html:5
+msgid "Архив новостей"
+msgstr "All news"
+
+#: templates/news/showAll.html:16
+msgid "Читать"
+msgstr "Read"
+
+#: templates/news/showOne.html:18
+msgid "Все новости"
+msgstr "All news"
+
+#: templates/public/first_page.html:10
+msgid "Текст новости целиком"
+msgstr "Full text"
+
+#: templates/public/first_page.html:18 templates/tags/wall.html:27
+msgid "Показать все"
+msgstr "Show all"
+
+#: templates/public/first_page.html:23
+msgid "Как купить?"
+msgstr "How to buy?"
+
+#: templates/public/first_page.html:24
+msgid "Как продать?"
+msgstr "How to sell?"
+
+#: templates/public/first_page.html:31 templates/tags/products.html:17
+msgid "Подробнее"
+msgstr "More info"
+
+#: templates/public/shop.html:7
+msgid "Магазин продавца"
+msgstr "Shop owner"
+
+#: templates/public/shop.html:63
+msgid "Дата регистрации:"
+msgstr "Registration:"
+
+#: templates/public/show.html:45 templates/tags/cart.html:7
+#: templates/tags/complain.html:24 templates/tags/order.html:19
+#: templates/tags/products.html:81
+msgid "Продавец:"
+msgstr "Seller:"
+
+#: templates/public/show.html:74
+msgid "Цена:"
+msgstr "Price:"
+
+#: templates/public/show.html:90
+msgid "Цвет:"
+msgstr "Color:"
+
+#: templates/public/show.html:109
+msgid "Размер:"
+msgstr "Size:"
+
+#: templates/public/show.html:121 templates/tags/complain.html:34
+msgid "Количество:"
+msgstr "Quantity:"
+
+#: templates/public/show.html:125
+msgid "Закончились"
+msgstr "Ended"
+
+#: templates/public/show.html:154 templates/tags/products.html:88
+msgid "Предзаказ:"
+msgstr "Preorder:"
+
+#: templates/public/show.html:161
+msgid "Откуда:"
+msgstr "From:"
+
+#: templates/public/show.html:174
+msgid "Внутренняя"
+msgstr "Internal"
+
+#: templates/public/show.html:179 templates/public/show.html.py:194
+msgid "Бесплатно"
+msgstr "Free"
+
+#: templates/public/show.html:186
+msgid "Внешняя:"
+msgstr "External:"
+
+#: templates/public/show.html:197
+msgid "Не доставляем"
+msgstr "No"
+
+#: templates/public/show.html:208
+msgid "Нет товара"
+msgstr "No product"
+
+#: templates/public/show.html:210 templates/public/show.html.py:213
+msgid "В корзину"
+msgstr "Add to Cart"
+
+#: templates/public/show.html:220
+msgid "Вы можете:"
+msgstr "You can:"
+
+#: templates/public/show.html:225
+msgid "Написать письмо продавцу"
+msgstr "Write message to seller"
+
+#: templates/public/show.html:228
+msgid "Посмотреть все товары продавца"
+msgstr "See all seller's products"
+
+#: templates/public/show.html:233
+msgid "Описание товара"
+msgstr "Description"
+
+#: templates/public/show.html:243
+msgid "Дополнительные фото товара"
+msgstr "Promo photos"
+
+#: templates/public/show.html:244
+msgid "Отзывы"
+msgstr "Reviews"
+
+#: templates/public/show.html:253
+msgid "Нет фотографий"
+msgstr "No photos"
+
+#: templates/public/show.html:261
+msgid "Автор:"
+msgstr "Author:"
+
+#: templates/public/show.html:264
+msgid "Оценка:"
+msgstr "Mark:"
+
+#: templates/public/show.html:296
+msgid "Отзывов нет"
+msgstr "No reviews"
+
+#: templates/public/show.html:314
+msgid "Оставить отзыв"
+msgstr "Add a review"
+
+#: templates/public/show.html:321
+msgid ""
+"Вы не можете оставить отзыв, если вы не покупали данный товар или уже "
+"добавляли комментарий."
+msgstr ""
+"You can't add a review if you didn't buy this product or you already "
+"added a comment."
+
+#: templates/registration/activate.html:5
+msgid "Активация"
+msgstr "Activation"
+
+#: templates/registration/activate.html:8
+msgid "Ваш аккаунт активирован!"
+msgstr "Your account is activated!"
+
+#: templates/registration/activate.html:9
+msgid "Логин"
+msgstr "Login"
+
+#: templates/registration/login.html:10
+msgid "Забыли пароль?"
+msgstr "Forget a password?"
+
+#: templates/registration/registration_form.html:17
+msgid "Вход для зарегестрированных пользователей"
+msgstr "Registered user's login"
+
+#: templates/registration/registration_form.html:20
+#: templates/registration/registration_form.html:39
+msgid "Введите имя пользователя:"
+msgstr "Username:"
+
+#: templates/registration/registration_form.html:23
+#: templates/registration/registration_form.html:45
+msgid "Введите пароль:"
+msgstr "Password:"
+
+#: templates/registration/registration_form.html:27
+msgid "Войти"
+msgstr "Enter"
+
+#: templates/registration/registration_form.html:28
+msgid "Забыли пароль"
+msgstr "Forget a password ?"
+
+#: templates/registration/registration_form.html:35
+msgid "Регистрация новых пользователей"
+msgstr "Registration for new users"
+
+#: templates/registration/registration_form.html:42
+msgid "Email:"
+msgstr "Email:"
+
+#: templates/registration/registration_form.html:48
+msgid "Подтвердите пароль:"
+msgstr "Re-type password:"
+
+#: templates/registration/registration_form.html:52
+msgid "Регистрация"
+msgstr "Registration"
+
+#: templates/registration/registration_form.html:91
+msgid "Изменить пароль"
+msgstr "Change password"
+
+#: templates/tags/cart.html:16
+msgid "Написать сообщение продавцу"
+msgstr "Send message to seller"
+
+#: templates/tags/cart.html:23 templates/tags/order.html:74
+msgid "Цена товара"
+msgstr "Product's price"
+
+#: templates/tags/cart.html:24 templates/tags/order.html:75
+msgid "Кол-во"
+msgstr "Quantity"
+
+#: templates/tags/cart.html:25 templates/tags/order.html:76
+msgid "Доставка"
+msgstr "Delivery"
+
+#: templates/tags/cart.html:26
+msgid "Сумма"
+msgstr "Sum"
+
+#: templates/tags/cart.html:27 templates/tags/order.html:78
+msgid "Инфо"
+msgstr "Info"
+
+#: templates/tags/cart.html:28 templates/tags/order.html:79
+msgid "Действие"
+msgstr "Action"
+
+#: templates/tags/cart.html:47 templates/tags/order.html:110
+msgid "Цвет"
+msgstr "Color"
+
+#: templates/tags/cart.html:50 templates/tags/order.html:113
+msgid "Размер"
+msgstr "Size"
+
+#: templates/tags/cart.html:53 templates/tags/order.html:116
+msgid "Тип"
+msgstr "Type"
+
+#: templates/tags/cart.html:57
+msgid "Вы действительно хотите удалить данный товар?"
+msgstr "Are you really want to delete this product?"
+
+#: templates/tags/cart.html:64
+msgid "Сумма заказа в данном магазине:"
+msgstr "Sum in this shop"
+
+#: templates/tags/cart.html:70
+msgid "Общая сумма заказа:"
+msgstr "Full order's price:"
+
+#: templates/tags/cart.html:71
+msgid "Выберите адрес доставки либо укажите новый"
+msgstr "Choose your delivery address or add new one"
+
+#: templates/tags/cart.html:78
+msgid "Вход для пользователей:"
+msgstr "Sign in:"
+
+#: templates/tags/cart.html:81
+msgid "Регистрация:"
+msgstr "Registration:"
+
+#: templates/tags/cart.html:90
+msgid "Ваш адрес:"
+msgstr "Address:"
+
+#: templates/tags/cart.html:92
+msgid "Регион:"
+msgstr "Region:"
+
+#: templates/tags/cart.html:93
+msgid "Город:"
+msgstr "City:"
+
+#: templates/tags/cart.html:94
+msgid "Улица:"
+msgstr "Street:"
+
+#: templates/tags/cart.html:95
+msgid "Индекс:"
+msgstr "Zip code"
+
+#: templates/tags/cart.html:96
+msgid "Удаление адреса"
+msgstr "Delete address"
+
+#: templates/tags/cart.html:96
+msgid "Вы действительно хотите удалить данный адрес ?"
+msgstr "Are you sure you want to delete this order?"
+
+#: templates/tags/cart.html:99 templates/tags/cart.html.py:110
+msgid "Заказать"
+msgstr "Order"
+
+#: templates/tags/cart.html:114
+msgid "В вашей корзине товаров нет."
+msgstr "No products in your Cart"
+
+#: templates/tags/complain.html:30
+msgid "Жалоба на товар:"
+msgstr "Complain about product:"
+
+#: templates/tags/complain.html:35
+msgid "Общая сумма:"
+msgstr "Full sum:"
+
+#: templates/tags/complain.html:37
+msgid "Статус жалобы:"
+msgstr "Complain status"
+
+#: templates/tags/complain.html:45
+msgid "Сумма возврата:"
+msgstr "Sum of refund:"
+
+#: templates/tags/complain.html:50
+msgid "Судья приглашен"
+msgstr "Judge invited"
+
+#: templates/tags/complain.html:55
+msgid "Вернуть деньги покупателю ?"
+msgstr "Give back money to buyer?"
+
+#: templates/tags/complain.html:55
+msgid "Вернуть"
+msgstr "Refund"
+
+#: templates/tags/complain.html:90 templates/tags/complain.html.py:107
+msgid "Сумма возврата"
+msgstr "Sum of refund:"
+
+#: templates/tags/complain.html:112
+msgid "Вы можете"
+msgstr "You can"
+
+#: templates/tags/complain.html:112
+msgid "пригласить судью"
+msgstr "invite judge"
+
+#: templates/tags/complain.html:112
+msgid "если не удалось достигнуть взаимопонимания"
+msgstr "if you can't reach an understanding"
+
+#: templates/tags/order.html:5
+msgid "Заказ"
+msgstr "Order"
+
+#: templates/tags/order.html:10
+msgid "Сумма:"
+msgstr "Sum:"
+
+#: templates/tags/order.html:14
+msgid "Покупатель:"
+msgstr "Buyer:"
+
+#: templates/tags/order.html:16
+msgid "Пожалуйста, напишите причину отклонения заказа и подтвердите действие"
+msgstr "Please add a reason of order refusing and confirm the action"
+
+#: templates/tags/order.html:16
+msgid "Отклонение заказа"
+msgstr "Order refusing"
+
+#: templates/tags/order.html:16
+msgid "Отклонить заказ"
+msgstr "Refuse order"
+
+#: templates/tags/order.html:16
+msgid "Отклонить"
+msgstr "Refuse"
+
+#: templates/tags/order.html:24
+msgid "Вы уверены, что хотите удалить заказ"
+msgstr "Are you sure you want to delete this order"
+
+#: templates/tags/order.html:24
+msgid "Удалить заказ"
+msgstr "Delete order"
+
+#: templates/tags/order.html:30
+msgid "Номер заказа:"
+msgstr "Order id:"
+
+#: templates/tags/order.html:42 templates/tags/order.html.py:47
+msgid "Трекинг код:"
+msgstr "Tracking code:"
+
+#: templates/tags/order.html:49
+msgid "Заказ отправлен:"
+msgstr "Order sent:"
+
+#: templates/tags/order.html:53
+msgid "Подтвердить доставку товара"
+msgstr "Confirm order delivery"
+
+#: templates/tags/order.html:53
+msgid "Подтвердить доставку"
+msgstr "Confirm delivery"
+
+#: templates/tags/order.html:57
+msgid "Статус заказа:"
+msgstr "Order status:"
+
+#: templates/tags/order.html:64
+msgid "Причина отказа: "
+msgstr "Reason to refuse:"
+
+#: templates/tags/order.html:67
+msgid "Доставлено:"
+msgstr "Delivered:"
+
+#: templates/tags/order.html:77
+msgid "Общая сумма"
+msgstr "Whole sum:"
+
+#: templates/tags/order.html:129
+msgid "Сумма заказа:"
+msgstr "Order sum:"
+
+#: templates/tags/order.html:131
+msgid "Дата оплаты"
+msgstr "Payment date"
+
+#: templates/tags/order.html:135
+msgid "Оплатить"
+msgstr "Pay"
+
+#: templates/tags/products.html:6 templates/tags/products.html.py:57
+msgid "Показать плиткой"
+msgstr "Show by grid"
+
+#: templates/tags/products.html:7 templates/tags/products.html.py:58
+msgid "Упрощенная форма показа товаров"
+msgstr "Simplified form of the displaying"
+
+#: templates/tags/products.html:8
+msgid "Расширенная форма показа товаров с дополнительной информацией."
+msgstr "Extended form of the displaying with additional information"
+
+#: templates/tags/products.html:9 templates/tags/products.html.py:60
+msgid "Показать списком"
+msgstr "Show by list"
+
+#: templates/tags/products.html:52 templates/tags/products.html.py:105
+msgid "Нет товаров, удовлетворяющих вашему критерию поиска"
+msgstr "There are no products match your search criteria"
+
+#: templates/tags/products.html:85
+msgid "Рейтинг товара:"
+msgstr "Product's rating:"
+
+#: templates/tags/products.html:86
+msgid "Куплено:"
+msgstr "Bought:"
+
+#: templates/tags/products.html:90
+msgid "Отзывы:"
+msgstr "Reviews:"
+
+#~ msgid "Пожалуйста, выберите категорию"
+#~ msgstr "Please, choose category"
+
+#~ msgid "Жалоба добавленна"
+#~ msgstr "Complain added"
+
+#~ msgid "Пустое сообщение"
+#~ msgstr "Empty message"
+
+#~ msgid "нет жалобы в сообщении"
+#~ msgstr "no complain in message"
+
+#~ msgid "Жалоба удовлетворена"
+#~ msgstr "Complain satisfied"
+
+#~ msgid "Not enough money"
+#~ msgstr "Не достаточно денег"
+
+#~ msgid "Сумма жалобы не может превышать цену товара"
+#~ msgstr "Sum of complain can't be bigger than product's price"
+
+#~ msgid "Текст жалобы не может быть пустым"
+#~ msgstr "The text of complain is empty"
+
+#~ msgid "Судья был приглашен, ждите его решения до 3-х дней."
+#~ msgstr "Judge was invited, wait 3 days or less"
+
+#~ msgid "Жалобы"
+#~ msgstr "Complains"
+
+#~ msgid "Жалоба"
+#~ msgstr "Complain"
+
+#~ msgid "Название товара"
+#~ msgstr "Product's name"
+
+#~ msgid "Статус заказа"
+#~ msgstr "Order status"
+
+#~ msgid "Статус жалобы"
+#~ msgstr "Complain status"
+
+#~ msgid "Возврат денег"
+#~ msgstr "Money refund"
+
+#~ msgid "Жалоб нет"
+#~ msgstr "No complains"
+
+#~ msgid "Оплатить с помощью Paypal"
+#~ msgstr "Pay by Paypal"
+
+#~ msgid ""
+#~ "Нажав на эту кнопку вы попадете на официальную страницу Paypal, где "
+#~ "сможете совершить ваш платёж, указав необходимые данные."
+#~ msgstr ""
+#~ "Clicking this button will provide you to an official Paypal page.  "
+#~ "There you can do money transfer."
+
+#~ msgid ""
+#~ "Если у вас нет аккаунта Paypal - просто выберите опцию 'No, I have not "
+#~ "Paypal account' и заполните все необходимые поля."
+#~ msgstr ""
+#~ "If you haven't Paypal account - just choose an option 'No, I have not "
+#~ "Paypal account' and fill the fom."
+
+#~ msgid "Возвращенна сумма "
+#~ msgstr "Money refund"
+
+#~ msgid " покупателю "
+#~ msgstr "to buyer"
+
+#~ msgid " за товар "
+#~ msgstr "for product"
+
+#~ msgid "Возврат суммы "
+#~ msgstr "Money refund"
+
+#~ msgid "Удобная система оплаты"
+#~ msgstr "Convenient payment system"
+
+#~ msgid "Добавить товар из других шопинг платформ"
+#~ msgstr "Add a product from other shopping platforms"
+
+#~ msgid "Доверенный продавец"
+#~ msgstr "Trustable seller"
+
+#~ msgid "Имя продавца:"
+#~ msgstr "Seller's name:"
+
+#~ msgid "Аддресс"
+#~ msgstr "Address:"
+
+#~ msgid "Красный"
+#~ msgstr "Red"
+
+#~ msgid "Белый"
+#~ msgstr "White"
+
+#~ msgid "Синий"
+#~ msgstr "Blue"
+
+#~ msgid "Нет заказов"
+#~ msgstr "No orders"
+
+#~ msgid "Возможность доставки в другие страны ?"
+#~ msgstr "Can you do external delivery?"
+
+#~ msgid "Ukraine"
+#~ msgstr "Украина"
+
+#~ msgid "China"
+#~ msgstr "Китай"

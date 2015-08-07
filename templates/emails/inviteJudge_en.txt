@@ -1,0 +1,9 @@
+Dear {{user}}
+
+User {{who}} invite judge for review
+{% ifequal BorS 'buyer' %}
+<a href="http://www.ywaga.com/shop/add_complain/{{cart.id}}"> complain</a>
+{%else %}
+<a href="http://www.ywaga.com/add_complain/{{cart.id}}"> complain</a>
+{% endifequal %}
+

@@ -1,0 +1,3 @@
+Dear {{user}}
+Buyer {{buyer}} payed {{order.price}}$ for
+<a href="http://www.ywaga.com/shop/orders/"> order #{{order.id}}</a>

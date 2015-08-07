@@ -1,0 +1,2 @@
+Dear {{user}}
+You get {{amount}}$ from ywaga account {{from}}

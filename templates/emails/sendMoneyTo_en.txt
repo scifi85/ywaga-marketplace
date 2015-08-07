@@ -1,0 +1,2 @@
+Dear {{user}}
+You send {{amount}}$ to ywaga account {{to}}

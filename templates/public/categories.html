@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load categories %}
+{% block body %}
+    <script>
+        $(function(){
+            var path='/search_by_categories/';
+            $('.categoriesBreadcramp').each(function(k,v){
+                var href = $(this).attr('href');
+                $(this).attr('href', path+href);
+                path = $(this).attr('href');
+            })
+        })
+    </script>
+    <div class="cat-div">
+    {% for category in categories %}   
+        <a  class='categoriesBreadcramp' href ="{{ category }}/">{{ category|show:LANGUAGE_CODE}}</a>
+        <span class="breadcrumb-symbol">&rArr;</span> 
+    {% endfor %}
+    </div>
+    <div class="page-pad">
+    {% include "tags/products.html"%}
+    </div>
+<!-- Working with last breadcrumb -->
+<script>
+    var category = $('.categoriesBreadcramp').last();
+    category.css({
+        'color': '#333',
+        'text-decoration': 'none',
+        'cursor': 'default'
+    });
+    category.on('click', function(e) {
+        e.preventDefault();
+    });
+    $('.breadcrumb-symbol').last().remove();
+</script>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "manage_shop/base.html" %}
+{% load i18n %}
+{% block content %}
+
+    <div class="add-prod-holder">
+        <a href="{%  url add_product %}" class="addproduct btn btn-large btn btn-warning">{% trans "Добавить новый товар" %}</a>
+    </div>
+    <div class="clear"></div>
+    
+    {% if products.object_list %}
+    <div class="artsearch">
+        <form action="." method="GET">
+            <input type="text" name="search" placeholder="Поиск по товарам (название, штрих код и т.д.)">
+            <button class="btn">Поиск</button>
+        </form>
+    </div>
+    <div class="quick-actions">
+        <form action="{% url action %}" method="post" class="confirm" rel="{% trans "Уверены ?" %}">{% csrf_token %}
+        <select name="action">
+            <option value="del_choosen">{% trans "Удалить выбраные" %}</option>
+            <option value="del_all">{% trans "Удалить все" %}</option>
+        </select>
+        <button class="btn">Ok</button>
+    </div>
+        <table class="table table-striped table-condensed table-search-prod">
+            <thead>
+            <tr>
+                <th></th>
+                <th><span class="label">{% trans "Фото" %}</span></th>
+                <th><span class="label">{% trans "Название" %}</span></th>
+                <th class="th-price"><span class="label">{% trans "Цена" %}</span></th>
+                <th><span class="label">{% trans "Количество" %}</span></th>
+                {#                <th><span class="label">Edit item</span></th>#}
+                <th class="td-del"><span class="label">{% trans "Удаление" %}</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products.object_list %}
+                <tr>
+                    <td class="checker">
+                        <input name ="product_{{ product.id }}" type="checkbox">
+                    </td>
+                    <td><a href="{% url edit_product product.id %}" class="item_pic"><img src="/media/{{ product.small_picture }}" width="64px" alt=""></a></td>
+                    <td>
+                        <a href="{% url edit_product product.id %}"> {{ product.name }}</a>
+                        {% if product.link %}
+                            <a class="plugin-link" href="{{ product.link }}" target="_blank">Link</a>
+                        {% endif %}
+                    </td>
+
+
+                    <td>{{ product.price }} грн.</td>
+                    <td>{{ product.quantity }}</td>
+                    {#                <td><a href="#"><span class="label label-warning"><i class="icon-pencil icon-white"></i> Edit</span></a></td>#}
+                    <td class="td-del">
+                        <a class="confirm" rel='{% trans "Вы уверены что хотите удалить этот товар?" %}' href="{% url delete_product product.id%}" title="{% trans "Удалить" %}">
+                            <span class="label label-important"><i class="icon-trash icon-white"></i></span></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </form>
+        <ul class="paginator">
+            {% if products.has_previous %}
+                <li class="page-prev"><a href="?q={{ query }}&page={{ products.previous_page_number }}" id="previous"> ← </a></li>
+            {% endif %}
+            {{ products.number }}  {% trans "из" %}  {{ products.paginator.num_pages }}.
+            {% if products.has_next %}
+                <li class="page-next"><a href="?q={{ query }}&page={{ products.next_page_number }}" id="next"> → </a></li>
+            {% endif %}
+        </ul>
+    {% else %}
+        <div class="hero-unit">
+            <p>{% trans "У вас пока нет ни одного товара.  Просто нажмите кнопку 'Добавить новый товар'' и начинайте зарабатывать прямо сейчас!" %}</p>
+        </div>
+        
+    {% endif %}
+
+
+{% if not user.get_profile.phone %}
+<script>
+    $(function () {
+        $('.addproduct').on('click', function(e) {
+            e.preventDefault();
+            $('#contactsplease').modal('show');
+        });
+    });
+</script>
+{% endif %}
+
+
+<div id="contactsplease" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Укажите ваш номер телефона</h3>
+  </div>
+  <div class="modal-body">
+  <p>Мы заметили, что вы не указали номер вашего телефона в ваших <a href="/contacts/">контактах</a>.</p>
+  <p>Пожалуйста, укажите его, прежде чем добавить свой первый товар. Это позволит повысить степень доверия покупателей и увеличит ваши продажи.</p>
+    <form method="POST" action="/shop/contacts/">{% csrf_token %}
+        <input type="hidden" name="next" value="add_product">
+        <input type="hidden" name="country" value="Ukraine">
+        <label for="id_phone">Телефон:</label><input id="id_phone" type="text" name="phone" maxlength="20">
+        <button type="submit" class="btn btn-warning">{% trans "Сохранить изменения" %}</button>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "manage_shop/base.html" %}
+{% load i18n %}
+{% load cart_tags %}
+
+{% block content %}
+
+<div class="contacts">
+    <div class="span4"></div>
+	<div class="span6">
+	  	<h3 class="contacts-head">{% trans "Контакты" %}</h3>
+	    <form class="well" method="post" action="">
+	        <table class="table table-condensed table-contacts">
+	            <tr>
+	                <td class="first-sell">{% trans "Магазин:" %}</td>
+	                <td><a href="#">{{ user.username }}</a></td>
+	            </tr>
+                <tr>
+                    <td class="first-sell">{% trans "Имя:" %}</td>
+                    <td>{{ user.get_profile.name }}</td>
+                </tr>
+<!-- 	            <tr>
+    <td class="first-sell">{% trans "Рейтинг:" %}</td>
+    <td>5</td>
+</tr> -->
+<!-- 	            <tr>
+    <td class="first-sell">{% trans "Продаж:" %}</td>
+    <td>125</td>
+</tr> -->
+	            <tr>
+	                <td class="first-sell">{% trans "Страна:" %}</td>
+                    {% if user.get_profile.country %}
+	                    <td class="append-country">{{ user.get_profile.country|countryTrans:LANGUAGE_CODE }}</td>
+                    {% endif %}
+	            </tr>
+                <tr>
+                    <td class="first-sell">{% trans "Адрес:" %}</td>
+                    <td class="append-country">{{ user.get_profile.address }}</td>
+                </tr>
+	            <tr>
+	                <td class="first-sell">{% trans "Телефон:" %}</td>
+	                <td>{{ user.get_profile.phone }}</td>
+	            </tr>
+	            <tr>
+	                <td class="first-sell">{% trans "Skype:" %}</td>
+	                <td>{{ user.get_profile.skype }}</td>
+	            </tr>
+	        </table>
+	    </form>
+	    <a class="edit-contacts">{% trans "Изменить" %}</a>
+	    <div class="clear"></div>
+	    <div class="contacts-edit">
+	    	<form class="well" method="POST" action=".">{% csrf_token %}
+                {{ form }}
+{#	    		<div class="control-group">#}
+{#		    		<label class="control-label">Укажите страну проживания:</label>#}
+{#		    		<input type="text" placeholder="Страна">#}
+{#	    		</div>#}
+{#	    		<div class="control-group">#}
+{#		    		<label class="control-label">Укажите ваш номер телефона:</label>#}
+{#		    		<input type="text" placeholder="Пример: 380991111111">#}
+{#	    		</div>#}
+{#	    		<div class="control-group">#}
+{#		    		<label class="control-label">Укажите ваш ник в Skype:</label>#}
+{#		    		<input type="text" placeholder="Skype">#}
+{#	    		</div>#}
+	    		<div class="form-actions">
+	    			<button type="submit" class="btn btn-warning">{% trans "Сохранить изменения" %}</button>
+	    		</div>
+			</form>
+	    </div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('.edit-contacts').on('click', function() {
+		$('.contacts-edit').fadeToggle('300');
+	})
+	$('.close-contacts').on('click', function() {
+		$('.contacts-edit').css('display', 'none');
+	})
+    {% if form.errors %}
+    $('.contacts-edit').fadeToggle('300');
+    {% endif %}
+</script>
+{% endblock %}

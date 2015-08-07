@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block body %}
+    <script>
+    $(function(){
+        $('#liqpay_pay').click(function(e){
+            if ({{ amount }}>250*8.2){
+                e.preventDefault();
+                show_message_error('Сумма единичной транзакции должна быть не больше 2050 грн. в соответствии с правилами Liqpay');
+            }
+        })
+    })
+    </script>
+<div class="page-pad">
+<table class="table">
+  <tbody>
+    <tr>
+      <td class="paytd-head">{% trans "Сумма транзакции:" %}</td>
+      <td class="paytd-amount">{{ amount }}грн</td>
+      <td class="paytd-help">{% trans "Это сумма, которая будет переведена на счёт продавца с помощью платёжной системы Liqpay." %}</td>
+    </tr>
+        <tr>
+      <td class="paytd-head">{% trans "Оплатить с помощью Liqpay" %}</td>
+      <td class="paytd-link">    
+	      	{% autoescape off %}
+	    	{{ liqpay }}
+	    	{% endautoescape %}
+	  </td>
+      <td class="paytd-help">{% trans "Нажав на эту кнопку вы попадете на официальную страницу Liqpay, где сможете совершить ваш платёж, указав номер карты и номер телефона для верификации." %}</td>
+    </tr>
+{#    <tr>#}
+{#      <td class="paytd-head">{% trans "Оплатить с помощью Paypal" %}</td>#}
+{#      <td class="paytd-link">#}
+{#      		{{ paypal.sandbox }}	#}
+{#      </td>#}
+{#      <td class="paytd-help">{% trans "Нажав на эту кнопку вы попадете на официальную страницу Paypal, где сможете совершить ваш платёж, указав необходимые данные." %}<br><span class="nopaypal">{% trans "Если у вас нет аккаунта Paypal - просто выберите опцию 'No, I have not Paypal account' и заполните все необходимые поля." %}</span></td>#}
+{#    </tr>#}
+  </tbody>
+</table> 
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "cart/base.html" %}
+{% load cart_tags %}
+{% load i18n %}
+{% block content %}
+    <script type="text/javascript" src="/static/scripts/order_manager/changes.js"></script>
+
+    <script>
+  $(function () {
+    $('#tabs-orders a:first').tab('show');
+      function getURLParameter(name) {
+          return decodeURI(
+                  (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+          );
+      }
+      if (getURLParameter('tab')=='second')
+          $('.payed-link').click();
+      if (getURLParameter('tab')=='third')
+          $('.closed-link').click();
+  })
+</script>
+
+<div id="orders">
+
+    {% if not_payed_orders or payed_orders or closed_orders %}
+    <ul class="nav nav-tabs" id="tabs-orders">
+        <li><a class="notpayed-link" href="#not_payed" data-toggle="tab">{% trans "Неоплаченные сделки" %}</a></li>
+        <li><a class="closed-link" href="#closed" data-toggle="tab">{% trans "Завершенные сделки" %}</a></li>
+
+    </ul>
+    <div class="tab-content">
+       <div class="tab-pane" id="not_payed">
+               {% for order in not_payed_orders.object_list %}
+                   {% include "tags/order.html" with order=order who='buyer'%}
+                {% endfor %}
+           {% if not_payed_orders.paginator.num_pages != 1 %}
+           <ul class="paginator">
+               {% if not_payed_orders.has_previous %}
+                   <li class="page-prev"><a href="?page={{ payed_orders.previous_page_number }}"> ← </a></li>
+               {% endif %}
+                {% ifequal not_payed_orders.number "1" %}
+                   {{ not_payed_orders.number }}  {% trans "из" %}  {{ not_payed_orders.paginator.num_pages }}
+                {% endifequal %}
+               {% if not_payed_orders.has_next %}
+                   <li class="page-next"><a href="?page={{ not_payed_orders.next_page_number }}"> → </a></li>
+               {% endif %}
+           </ul>
+           {% endif %}
+        </div>
+
+        <div class="tab-pane" id="closed">
+            {% for order in closed_orders.object_list %}
+                {% include "tags/order.html" with order=order who='buyer'%}
+
+            {% endfor %}
+            {% if closed_orders.paginator.num_pages != 1 %}
+            <ul class="paginator">
+                {% if closed_orders.has_previous %}
+                    <li class="page-prev"><a href="?page3={{ closed_orders.previous_page_number }}&tab=second"> ← </a></li>
+                {% endif %}
+                    {{ closed_orders.number }}  {% trans "из" %}  {{ closed_orders.paginator.num_pages }}
+
+                {% if closed_orders.has_next %}
+                    <li class="page-next"><a href="?page3={{ closed_orders.next_page_number }}&tab=second"> → </a></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+        {% trans "У Вас пока нет заказов" %}
+        <span class="sadsmile">:(</span>
+    {% endif %}
+</div>
+
+<!-- Shows first collapsed order in accordeon and even styling -->
+<script>
+    $('#not_payed .collapse').first().addClass('in');
+    $('#payed .collapse').first().addClass('in');
+    $('#closed .collapse').first().addClass('in');
+    $('.accordion-toggle:even').css('background', '#DFDFDF');
+</script>
+
+{% endblock %}
+

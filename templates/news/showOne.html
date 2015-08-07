@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block header %}
+    <meta name="keywords" content= "{{ item.keywords }}"/>
+    <meta name="description" content= "{{ item.description }}"/>
+{% endblock %}
+
+{% block body %}
+<div class="news-page">
+
+    {% autoescape off %}
+    <h2 class="news-archive-one">{{ item.name }}</h2> 
+    <span class="date-one">{{ item.date|date:"d.m.y" }}</span>
+    <div class="news-short-body">
+        {{ item.long }}
+    </div>    
+    {% endautoescape %}
+    <a href="{% url showNews %}" class="read-all-news">{% trans "Все новости" %}</a>
+</div>
+{% endblock %}

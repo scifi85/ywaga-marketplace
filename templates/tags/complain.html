@@ -1,0 +1,114 @@
+{% load i18n %}
+{% load cart_tags %}
+
+<script>
+    $(function(){
+      
+        $('#SubmitRefund').click(function(){
+            var copy=$('#EditFile');
+            $('#appendFile').html(copy);
+
+            {% if buyer and not cart.complain.refund%}
+                var refund=$('#EditRefund').val();
+                $('#refund').val(refund);
+            {% endif %}
+            var text=$('#EditComplainText').val();
+            $('#ComplainText').val(text);
+            $('#refund_submit').submit();
+
+        });
+    })
+</script>
+<div class="well">
+    {% if buyer %}
+        <b>{% trans "Продавец:" %}</b> <span class="refund-seller">
+        {% autoescape off %}
+        {{ cart.product.user.get_profile.shop }}
+        {% endautoescape %}
+    </span><br>
+    {% endif %}
+    <b>{% trans "Жалоба на товар:" %} </b>
+    <a href="{% url product cart.product.id %}">{{ cart.product.name }}</a>
+     <br>
+{#    <b>{% trans "Цена:" %} </b>{{ cart.price }}$ <br>#}
+    <b>{% trans "Количество:" %} </b>{{ cart.quantity }} <br>
+    <b>{% trans "Общая сумма:" %} </b>{{ cart.full_price }}$ <br>
+    {% if cart.complain.status %}
+        <b>{% trans "Статус жалобы:" %} </b>
+        {% autoescape off %}
+            {{ cart.complain.status|complainTrans:LANGUAGE_CODE  }}
+        {% endautoescape %}
+        <br>
+    {% endif %}
+    {% if cart.complain.refund %}
+        {% ifnotequal cart.complain.refund '0.0' %}
+            <b>{% trans "Сумма возврата:" %} </b>{{ cart.complain.refund }}$
+        {% endifnotequal %}
+    {% endif %}
+    <br>
+    {% if cart.complain.invite_judge  %}
+        <b style="color: red">{% trans "Судья приглашен" %} </b> <br>
+    {% endif %}
+    {% if seller %}
+        {% if not cart.complain.is_refund_complete %}
+            <br>
+            <a href="{% url refund_complete cart.id %}" class="confirm btn btn-warning" rel='{% trans "Вернуть деньги покупателю ?" %}'>{% trans "Вернуть" %}</a>
+        {% endif %}
+        <br>
+    {% endif %}
+</div>
+    {% for message in comments.object_list %}
+    <div class="one-message">
+        <div class="message-head">
+            
+                
+                
+            <span class="message-user">{{ message.user }}</span>&nbsp;
+            <a href="/media/{{ message.file }}">{{ message.file }}</a>
+            <span class="message-date">{{ message.create_date|date:"d.m.y" }}</span>
+        </div>
+        <div class="message-text">    
+            {{ message.text }}
+        </div>
+    </div>
+    {% endfor %}
+<ul class="paginator">
+    {% if comments.has_previous %}
+        <li class="page-prev"><a href="?q=page={{ comments.previous_page_number }}" id="previous"> ← </a></li>
+    {% endif %}
+    {% if comments.number %}
+    {{ comments.number }}  {% trans "из" %}  {{ comments.paginator.num_pages }}.
+    {% endif %}
+    {% if comments.has_next %}
+        <li class="page-next"><a href="?page={{ comments.next_page_number }}" id="next"> → </a></li>
+    {% endif %}
+</ul>
+    {% ifnotequal cart.complain.status 'Closed' %}
+        <input type="file" id="EditFile" name="file"> <br>
+        {% ifnotequal cart.complain.refund 0%}
+            {% if buyer and not cart.complain.refund%}
+                <input type="text" class="onlyFloat" id="EditRefund" value="{{ cart.complain.refund }}" placeholder="{% trans "Сумма возврата" %}" style="background: whitesmoke;"><br>
+            {% endif %}
+        {% endifnotequal %}
+
+        <textarea class="text-otpravka span12" id="EditComplainText" placeholder="{% trans "Текст сообщения" %}"></textarea> <br>
+        <a href="#" class="btn btn-danger" id="SubmitRefund">{% trans "Отправить" %}</a>
+        
+        <form method="POST" action=
+                {% if buyer %}
+        "{% url postBuyerComplain cart.id %}"
+              {% else %}
+        "{% url postSellerComplain cart.id %}"
+        {% endif %}
+        id="refund_submit" enctype="multipart/form-data"> {% csrf_token %}
+{#            <input type="hidden" id="file">#}
+            <span id="appendFile"></span>
+            {% if buyer and not cart.complain.refund%}
+                <input type="hidden" id="refund" name="refund" value="{{ cart.complain.refund }}" placeholder="{% trans "Сумма возврата" %}" style="background: whitesmoke;"><br>
+            {% endif %}
+            <input type="hidden" name="complain" id="ComplainText">
+        </form>
+        {% if cart.complain and not cart.complain.invite_judge %}
+            <p class="invite-judge">{% trans "Вы можете" %} <a href ="{% url invite_judge cart.id%}" id="invite_judge">{% trans "пригласить судью" %}</a>, {% trans "если не удалось достигнуть взаимопонимания" %}</p>
+        {% endif %}
+    {% endifnotequal %}

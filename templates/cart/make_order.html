@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block body %}
+    {% for order in user.get_profile.orders.all %}
+        {{ order.id }}
+        {{ order.address.country }}<br>
+        <b>{{ order.shop }}</b>
+        <table class="table table-striped table-condensed">
+        <thead>
+        <tr>
+            <th><span class="label">Picture</span></th>
+            <th><span class="label">Name</span></th>
+            <th><span class="label">Price</span></th>
+            <th><span class="label">Quantity</span></th>
+            <th><span class="label">Full price</span></th>
+            <th><span class="label">Info</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in order.carts.all %}
+                <tr>
+                    <td><a href="#" class="item_pic"><img src="/static/img/picture.jpg" alt=""></a></td>
+                    <td><a href="{% url product item.product.id %}"> {{ item.product.name }}</a></td>
+                    <td>{{ item.price }}$ </td>
+                    <td>{{ item.quantity }} </td>
+                    <td>
+                        <span id="full_price_{{ item.id }}"> {{ item.full_price }} </span>$
+                    </td>
+                    <td> {{ item.color.color }} {{ item.size.size }} {{ item.type.name }}</td>
+                </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% endfor %}
+{% endblock %}

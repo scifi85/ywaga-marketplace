@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load cart_tags %}
+{% block body %}
+<div class="shop-owner">
+	<div class="shop-head">
+	   <span class="main-info">{% trans "Магазин продавца" %}</span>
+        {% autoescape off %}
+            {{ shop.get_profile.shop }}
+        {% endautoescape %}
+
+	</div>
+    <div class="shop-description">
+        {% if shop.get_profile.description %}
+            {{ shop.get_profile.description}}
+        {% endif %}
+    </div>
+        <div class="shop-info">
+        	<table>
+        		<tbody>
+        			<tr>
+        				<td class="shop-info-head">
+        					{% trans "Имя:" %}
+        				</td>
+        				<td class="shop-info-head-sec">
+                            {{ shop.get_profile.name}}
+        				</td>
+        			</tr>
+        			<tr>
+        				<td class="shop-info-head">
+        					{% trans "Страна:" %}
+        				</td>
+        				<td class="shop-info-head-sec" style="font-weight: bold;">
+                            {{ shop.get_profile.country|countryTrans:LANGUAGE_CODE}}
+        				</td>
+        			</tr>
+        			<tr>
+        				<td class="shop-info-head">
+        					{% trans "Адрес:" %}
+        				</td>
+        				<td class="shop-info-head-sec">
+                            {{ shop.get_profile.address}}
+        				</td>
+        			</tr>
+        			<tr>
+        				<td class="shop-info-head">
+        					Skype:
+        				</td>
+        				<td class="shop-info-head-sec">
+                            {{ shop.get_profile.skype}}
+        				</td>
+        			</tr>
+        			<tr>
+        				<td class="shop-info-head">
+        					{% trans "Телефон:" %}
+        				</td>
+        				<td class="shop-info-head-sec">
+                            {{ shop.get_profile.phone}}
+        				</td>
+        			</tr>
+                    <tr>
+                        <td class="shop-info-head">
+                            {% trans "Дата регистрации:" %}
+                        </td>
+                        <td class="shop-info-head-sec">
+                            {{ shop.date_joined|date:"d.m.y"}}
+                        </td>
+                    </tr>
+        		</tbody>
+        	</table>
+            <a href="{% url send_message shop.username %}" class="btn btn-mini svyaz"><i class="icon icon-envelope"></i> Связаться</a>
+    	</div>
+</div>
+	
+    {% include "tags/products.html" with products=products %}
+
+
+{% endblock %}

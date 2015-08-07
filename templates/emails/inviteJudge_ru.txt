@@ -1,0 +1,9 @@
+Дорогой {{user}}
+
+Пользователь {{who}} пригласил судью для разсмотрения
+{% ifequal BorS 'buyer' %}
+<a href="http://www.ywaga.com/shop/add_complain/{{cart.id}}"> жалобы</a>
+{%else %}
+<a href="http://www.ywaga.com/add_complain/{{cart.id}}"> жалобы</a>
+{% endifequal %}
+

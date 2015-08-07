@@ -1,0 +1,3 @@
+Dear {{user}}
+customer {{who}}
+left comment {{message}} about product <a href="http://www.ywaga.com/product/{{product.id}}/">{{product.name}}</a>

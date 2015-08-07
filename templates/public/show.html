@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load cart_tags %}
+{% block header %}
+    <script src="/static/scripts/cart/show.js"></script>
+    <script src="/static/scripts/slider_buddah.js"></script>
+    <script type="text/javascript" src="/static/plugins/star-rating/jquery.rating.js"></script>
+    <link href="/static/plugins/star-rating/jquery.rating.css" type="text/css" rel="stylesheet">
+    <title>{{ product.name }}</title>
+    <meta name="keywords" content="{% for keywrod in product.keywords.all %}{{ keywrod.keyword }},{% endfor %}"/>
+{#    <meta name="description" content="{{ product.meta_description }}"/>#}
+{% endblock %}
+
+{% block body %}
+    <script>
+        $(function(){
+            $('#tabs-product a:first').tab('show');
+            var rate=0;
+            $('#slider-thumbs li').each(function(k,v){ $(this).attr('rel',k+1);})
+            $('.ratingStar').rating({callback: function(value, link){
+                rate=value;
+            }});
+            $('#PutComment').click(function(){
+                var text= $("#editComment").val();
+                $('#rate').val(rate);
+                $('#comment').val(text);
+                $('#postComment').submit();
+            });
+            function getURLParameter(name) {
+                return decodeURI(
+                        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+                );
+            }
+
+            if (getURLParameter('page')!='null'){
+                $('.feedbacks').click();
+//
+            }
+
+        });
+    </script>
+
+<div class="show-page">
+    <h1 class="product-name">{{ product.name }}</h1>
+    <p class="seller">{% trans "Продавец:" %}
+
+        {% autoescape off %}
+            {{  product.user.get_profile.shop  }}
+        {% endautoescape %}
+
+    </p>
+
+    <div class="slider-block">
+        <div id="slider-main">
+            {% for image in product.front_images.all %}
+                <img src="/media/{{ image.picture }}">
+            {% endfor %}
+        </div>
+
+        <ul id="slider-thumbs">
+            {% for image in product.front_images.all %}
+            <li>
+                <img src="/media/{{ image.small_picture }}">
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <form action="{% url buy_product product.id %}" method="POST">{% csrf_token %}
+    <div class="product-details">
+        <table class="table">
+            <tbody>
+                <tr class="product-price">
+                    <td>
+                        {% trans "Цена:" %}
+                    </td>
+                    <td>
+                        {% if product.is_promotion %}
+                        <span class="product-price-normal" >{{ product.promotion_price }} грн.</span>
+                        <span ><strike id="priceProduct">{{ product.price }} грн.</strike></span>
+                        {% else %}
+                        <span class="product-price-normal" id="priceProduct">{{ product.price }} грн.</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% if product.colors.all %}
+                <tr class="product-color">
+                    <td>
+                        {% trans "Цвет:" %}
+                    </td>
+                    <td>
+                        {% for color in product.colors.all %}
+                            <input type="radio" name="color" class="color" value="{{ color.id }}" id="color{{ color.id }}" rel="{{ color.price }}">
+                            <label for="color{{ color.id }}">{{ color.color|colorTrans:LANGUAGE_CODE}}</label>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% if product.sizes.all %}
+                <tr class="product-size">
+                    <td>
+                        {% trans "Размер:" %}
+                    </td>
+                    <td>
+                        {% for size in product.sizes.all %}
+                            <input type="radio" name="size" value="{{ size.id }}" rel="{{ size.price }}" id="s{{ size.id }}" class='size'/>
+                            <label for="s{{ size.id }}">{{ size.size }}</label>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                <tr class="product-quantity">
+                    <td>
+                        {% trans "Количество:" %}
+                    </td>
+                    <td>
+                        {% ifequal product.quantity 0 %}
+                            <span>{% trans "Закончились" %}</span>
+                        {% else %}
+                            <select name="quantity" id='id_quantity'>  </select>
+                            <script>
+                                for (i=1;i<={{ product.quantity }};i++)
+                                    $('#id_quantity')
+                                            .append($("<option></option>")
+                                            .attr("value",i)
+                                            .text(i));
+                            </script>
+                        {% endifequal %}
+                    </td>
+                </tr>
+                {% if  product.types.all %}
+                <tr class="product-type">
+                    <td>
+                        Тип:
+                    </td>
+                    <td>
+                        {% for type in product.types.all %}
+                            <input type="radio" name="type" value="{{ type.id }}" rel="{{ type.price }}" id="t{{ type.id }}" class='type'/>
+                            <label for="t{{ type.id }}">{{ type.name }}</label>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% if product.preorder %}
+                <tr class="product-country">
+                    <td>
+                        {% trans "Предзаказ:" %}
+                    </td>
+                    <td class="normal">{{ product.preorder_days }} дней</td>
+                </tr>
+                {% endif %}
+                <tr class="product-delivery">
+                    <td>
+                        {% trans "Доставка:" %}
+                    </td>
+                    <td class="normal">
+                        <!-- <table class="table table-condensed table-delivery">
+                            <tbody>
+                                    <tr class="normal">
+                                        <td>{% trans "Внутренняя" %}
+
+                                        ({{ product.country|countryTrans:LANGUAGE_CODE }}):&nbsp; </td>
+                                        <td style="text-align: right;">
+                                            {% if product.internal_delivery %}
+                                                {{ product.internal_delivery }} грн.
+                                            {% else %}
+                                                {% trans "Бесплатно" %}
+                                            {% endif %}
+                                            <input type="radio" name='delivery' value='internal' checked="on">
+                                        </td>
+                                    </tr>
+
+                                    <tr class="normal">
+                                        <td>{% trans "Внешняя:" %}&nbsp;</td>
+                                        {{ product.is_external }}
+                                        <td style="text-align: right;">
+                                            {% if product.is_external %}
+                                                    {{ product.external_delivery }} грн.
+                                                    <input type="radio" name='delivery' value="external">
+                                                {% else %}
+                                                    {% trans "Бесплатно" %}
+                                         {% endif %}
+
+
+                                        </td>
+                                    </tr>
+                            </tbody>
+                        </table> -->
+
+                        {% if product.is_external %}
+                            <span class="label freelabel">Бесплатная доставка</span><br><br>
+                        {% else %}
+                            <span class="delpr">{{ product.external_delivery }}</span> грн.<br>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- <tr class="product-country">
+                    <td>
+                        {% trans "Откуда:" %}
+                    </td>
+
+                    <td class="normal">{{ product.country|countryTrans:LANGUAGE_CODE}}</td>
+                </tr> -->
+            </tbody>
+        </table>
+        {% ifequal product.quantity 0 %}
+            <span class="nettovara">{% trans "Нет товара" %}</span>
+            <br>
+            <button id="buy" class="btn btn-success buy disabled" href="#" onclick="return false;">{% trans "В корзину" %}</button>
+        {% else %}
+
+            <button id="buy" class="btn btn-success buy" href="#">{% trans "В корзину" %}</button>
+        {% endifequal %}
+    </div>
+    </form>
+    <div class="clear"></div>
+    <ul class="nav nav-list menu-product">
+        <li class="nav-header">
+            {% trans "Вы можете:" %}
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="{% url send_message product.user.username %}"><i class="icon-envelope"></i>
+                 {% trans "Написать письмо продавцу" %}</a>
+        </li>
+        <li>
+            <a href="{% url shop product.user.username %}"><i class="icon-tags"></i> {% trans "Посмотреть все товары продавца" %}</a>
+        </li>
+    </ul>
+
+    <div class="product-description">
+        <h4>{% trans "Описание товара" %}</h4>
+        <div>
+            {% autoescape off %}
+            {{ product.description }}
+            {% endautoescape %}
+        </div>
+        
+<script type="text/javascript" src="//yandex.st/share/share.js"
+charset="utf-8"></script>
+<div class="yashare-auto-init" data-yashareL10n="ru"
+    data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,lj,gplus">
+</div> 
+
+    </div>
+    <div class="clear"></div>
+    <ul class="nav nav-tabs" id="tabs-product">
+        <li><a href="#promopics-product" data-toggle="tab">{% trans "Дополнительные фото товара" %}</a></li>
+        <li><a href="#comments-product" data-toggle="tab" class="feedbacks">{% trans "Отзывы" %} ({{ product.comments.all.count}})</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane promophotos-product" id="promopics-product">
+            {% if product.images.all %}
+                {% for image in product.images.all %}
+                    <img src="/media/{{ image.picture }}">
+                {% endfor %}
+            {% else %}
+                {% trans "Нет фотографий" %}
+            {% endif %}
+        </div>
+        <div class="tab-pane comments" id="comments-product">
+        <div id="allComments"></div><!-- Не МЕНЯТЬ !!!-->
+            {% for comment in comments.object_list  %}
+            <div class="comment">
+                <div class="header-comment">
+                    <p class="name-comment">{% trans "Автор:" %}&nbsp; <a href="#">{{ comment.user }}</a>
+                        <span class="date-comment">{{ comment.create_date }}</span></p>
+                    <div class="stars">
+                        <span class="mark">{% trans "Оценка:" %}</span>
+                        <input name="starsb{{ comment.id }}" type="radio" class="ratingStar editStar" title="VERY POOR"  value="1" />
+                        <input name="starsb{{ comment.id }}" type="radio" class="ratingStar editStar" title="POOR"  value="2"/>
+                        <input name="starsb{{ comment.id }}" type="radio" class="ratingStar editStar" title="OK"  value="3" />
+                        <input name="starsb{{ comment.id }}" type="radio" class="ratingStar editStar" title="GOOD"  value="4"/>
+                        <input name="starsb{{ comment.id }}" type="radio" class="ratingStar editStar" title="VERY GOOD"  value="5"/>
+                    </div>
+                    <script>
+                        $(function(){
+                            $('input[name="starsb{{ comment.id }}"][value="{{comment.rate}}"]').rating('select');
+                            $('input[name="starsb{{ comment.id }}"][value="{{comment.rate}}"]').rating('disable');
+
+                        })
+                    </script>
+                </div>
+                <div class="text-comment">
+                    {{ comment.text }}
+                </div>
+            </div>
+            {% endfor %}
+            <ul class="paginator">
+                {% if comments.has_previous %}
+                    <li class="page-prev"><a href="?page={{ comments.previous_page_number }}#allComments" id="previous"> ← </a></li>
+                {% endif %}
+                {%  if comments.object_list %}
+                    {{ comments.number }}  из  {{ comments.paginator.num_pages }}.
+                {% endif %}
+                {% if comments.has_next %}
+                    <li class="page-next"><a href="?page={{ comments.next_page_number }}#allComments" id="next"> → </a></li>
+                {% endif %}
+            </ul>
+            {% ifequal product.comments.all.count 0 %}
+                <p class="comment-not-allowed">{% trans "Отзывов нет" %}</p>
+                <span class="sadsmile">:(</span>
+            {% endifequal %}
+            {% if is_allowed_comment %}
+                    <script>
+                        $(function(){
+                            $('#stars5').click();
+                        })
+                    </script>
+                    <div class="clear"></div>
+                    <div class="star-ratings">
+                        <input type="radio" class="ratingStar editStar required"   title="VERY POOR"  value="1" />
+                        <input type="radio" class="ratingStar editStar" title="POOR"  value="2"/>
+                        <input type="radio" class="ratingStar editStar" title="OK"  value="3" />
+                        <input type="radio" class="ratingStar editStar" title="GOOD"  value="4"/>
+                        <input id="stars5" type="radio" class="ratingStar editStar" title="VERY GOOD"  value="5"/>
+                    </div>
+                    <textarea class="review span6" id="editComment" placeholder = "Текст отзыва"  name='comment'></textarea> <br>
+                    <a href="#" class="btn btn-warning write-comment" id="PutComment">{% trans "Оставить отзыв" %}</a>
+                
+                    <form action="{% url post_comment product.id %}" method="post" id="postComment"> {% csrf_token %}
+                        <input type="hidden" name="rate" id="rate" value="5">
+                        <input type="hidden" name="comment" id="comment">
+                    </form>
+            {% else %}
+                <p class="comment-not-allowed">{% trans "Вы не можете оставить отзыв, если вы не покупали данный товар или уже добавляли комментарий." %}</p>
+
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="recom-selling">
+        <h3 class="other-products">Другие товары этого продавца</h3>
+        <ul class="products">
+            {% for recomended_product in product.recomended_products %}
+            <li>
+                <a href="{% url product recomended_product.id %}" class="prod-thumbs">
+                    <img src="/media/{{ recomended_product.picture }}">
+                    <span class="read-more">{% trans "Подробнее" %}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+
+
+
+    {#{% for color in product.colors.all %}#}
+    {#    <input type="radio" name="color" class="color" value="{{ color.id }}" rel="{{ color.price }}"> {{ color.color }}#}
+    {#{% endfor %}#}
+
+
+    {#<form action="{% url buy_product product.id %}" method="POST">{% csrf_token %}#}
+    {#    {% ifequal product.quantity 0 %}#}
+    {#        Not enough product, can't buy#}
+    {#    {% else %}#}
+    {#        <input type="text" name='quantity' value="1">#}
+    {#        <button id="buy">Add to cart</button>#}
+    {#    {% endifequal %}#}
+    {#</form>#}
+
+
+
+</div>
+{% endblock %}

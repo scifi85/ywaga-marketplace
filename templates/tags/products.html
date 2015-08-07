@@ -1,0 +1,110 @@
+{% load cart_tags %}
+{% load i18n %}
+{% if not view %}
+    {% if products.object_list %}
+<!--         <div class="buttons">
+
+            <a href="?q={{ query }}&page={{ products.number }} " class="grid btn btn-warning" title="{% trans "Упрощенная форма показа товаров" %}"><i class="icon-white icon-th"></i></a>
+            <a href="?q={{ query }}&view=extend&page={{ products.number }} " class="list btn btn-warning" title="{% trans "Расширенная форма показа товаров с дополнительной информацией." %}"><i class="icon-white icon-th-list"></i></a>
+        </div> -->
+        <ul class="products">
+            {% for product in products.object_list %}
+
+                <li>
+                    <a href="{% url product product.id %}" class="prod-thumbs">
+                        <img src="/media/{{ product.picture }}" alt="">
+                        <span class="read-more">{% trans "Подробнее" %}</span>
+                    </a>
+                    <div class="floating-info">
+                        <span class="price-thumb">
+                            {% if product.is_promotion %}
+                                {{ product.promotion_price }} грн.
+                                <span class="promoprice"><strike>{{ product.price }} грн.</strike></span>
+                            {% else %}
+                            {{ product.price }} грн.
+                            {% endif %}
+                        </span>
+                        <span class="where-from">{{ product.country|countryTrans:LANGUAGE_CODE }}</span>
+                        <div class="clear"></div>
+                        <a href="{% url product product.id %}" class="prod-thumb-head" title="{{ product.name }}">{{ product.name }}</a>
+                    </div>
+                </li>
+                <!-- <tr>
+                        <td><a href="#" class="item_pic"><img src="/media/{{ product.picture }}" alt=""></a></td>
+                        <td><a href="{% url product product.id %}" target="_blank"> {{ product.name }}</a></td>
+                        <td>{{ product.price }}$</td>
+                        <td>{{ product.user.get_profile.shop }}</td>
+                        <td>{{ product.bought }}</td>
+                    </tr> -->
+            {% endfor %}
+        </ul>
+        <ul class="paginator">
+            {% if products.has_previous %}
+                <li class="page-prev"><a href="?q={{ query }}&page={{ products.previous_page_number }}&view={{ view }}" id="previous"> ← </a></li>
+            {% endif %}
+            {{ products.number }}  {% trans "из" %}  {{ products.paginator.num_pages }}.
+            {% if products.has_next %}
+                <li class="page-next"><a href="?q={{ query }}&page={{ products.next_page_number }}&view={{ view }}" id="next"> → </a></li>
+            {% endif %}
+        </ul>
+    {% else %}
+        {% trans "Нет товаров, удовлетворяющих вашему критерию поиска" %}
+    {% endif %}
+{% else %}
+    {% if products.object_list %}
+        <div class="buttons">
+            <!-- <span>{% trans "Показать плиткой" %} <i>&rarr; </i> </span> -->
+            <a href="?q={{ query }}&page={{ products.number }} " class="grid btn btn-warning" title="{% trans "Упрощенная форма показа товаров" %}"><i class="icon-white icon-th"></i></a>
+            <a href="?q={{ query }}&view=extend&page={{ products.number }} " class="list btn btn-warning" title="{% trans "Расширенная форма показа товаров с дополнительной информацией." %"><i class="icon-white icon-th-list"></i></a>
+            <!-- <span> <i>&larr; </i>{% trans "Показать списком" %}</span> -->
+        </div>
+        
+            {% for product in products.object_list %}
+                <div class="products-list">
+                    <a href="{% url product product.id %}" class="prod-thumbs-list">
+                        <img src="/media/{{ product.picture }}" alt="">
+                    </a>
+                    <div class="right-prod-list">
+                        <a href="{% url product product.id %}" class="prod-thumb-head-list" title="{{ product.name }}">{{ product.name }}</a>
+                        <span class="price-thumb-list">
+                            {% if product.is_promotion %}
+                                {{ product.promotion_price }} грн. <span class="promoprice"><strike>{{ product.price }}$</strike></span>
+                            {% else %}
+                                {{ product.price }} грн.
+                            {% endif %}
+                        </span>
+                        <span class="where-from-list">{{ product.country|countryTrans:LANGUAGE_CODE}}</span>
+                        
+                    </div>               
+                    <div class="extrainfo">
+                        <span class="seller">{% trans "Продавец:" %} 
+                            {% autoescape off %}
+                            {{ product.user.get_profile.shop }}</a></span>
+                            {% endautoescape %}
+                        <!-- <span class="rates"><i>{% trans "Рейтинг товара:" %}</i> 5</span> -->
+                        <span class="bought"><i>{% trans "Куплено:" %}</i> {{ product.bought }}</span>
+                        {% if product.preorder_days %}
+                        <span class="predzakaz"><i>{% trans "Предзаказ:" %} </i> {{ product.preorder_days }} дней</span>
+                        {% endif %}
+                        <span class="otzuvu"><i>{% trans "Отзывы:" %} </i>{{ product.comments.all.count}}</span>
+                    </div>
+                </div>
+            {% endfor %}
+
+        <ul class="paginator">
+            {% if products.has_previous %}
+                <li class="page-prev"><a href="?q={{ query }}&page={{ products.previous_page_number }}&view={{ view }}" id="previous"> ← </a></li>
+            {% endif %}
+            {{ products.number }}  {% trans "из" %}  {{ products.paginator.num_pages }}.
+            {% if products.has_next %}
+                <li class="page-next"><a href="?q={{ query }}&page={{ products.next_page_number }}&view={{ view }}" id="next"> → </a></li>
+            {% endif %}
+        </ul>
+    {% else %}
+        {% trans "Нет товаров, удовлетворяющих вашему критерию поиска" %}
+    {% endif %}
+{% endif %}
+
+<script>
+    $('.products-list').last().css('border-bottom', 'none');
+</script>

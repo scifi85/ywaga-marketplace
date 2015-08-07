@@ -1,0 +1,8 @@
+Dear  {{user}}
+{% autoescape off %}
+Seller {{seller}} reply to your  <a href="http://www.ywaga.com/shop/add_complain/{{cart_id}}">complain</a>
+about product <a href="http://ywaga.com/product/{{cart.product.id}}">{{cart.product.name}}</a>
+
+{% endautoescape %}
+reply message
+{{message}}

@@ -1,0 +1,21 @@
+<table width="100%">
+    <thead>
+    <th>picture</th>
+    <th>name</th>
+    <th>quantity</th>
+    <th>price</th>
+    </thead>
+    <tbody>
+    {% for cart in carts %}
+        <tr>
+        <td><a href="{% url product cart.product.id %}">
+            <img src="/media/{{ cart.product.picture }}" width="80px">
+            </a>
+        </td>
+        <td>{{ cart.product.name }}</td>
+        <td>{{ cart.quantity }}</td>
+        <td>{{ cart.price }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

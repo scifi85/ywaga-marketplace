@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block body %}
+<div class="news-page">
+	<h2 class="news-archive">{% trans "Архив новостей" %}</h2>
+    {% autoescape off %}
+    {% for new in news.object_list %}
+    <div class="news-all">
+	    <div class="news-head-all">
+	        <a href="{% url showOne new.id %}" title="% trans "Текст новости целиком" %}"><h4>{{ new.name }}</h4></a>
+	        <span class="news-date">{{ new.date|date:"d.m.y" }}</span>
+	    </div>
+	    <div class="news-short-body">
+        	{{ new.short }}
+        </div>
+        <a href="{% url showOne new.id %}" class="btn read-one">{% trans "Читать" %}</a>
+    </div>
+    {% endfor %}
+    {% endautoescape %}
+</div>
+{% endblock %}

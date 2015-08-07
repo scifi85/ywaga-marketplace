@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load  wall_tags %}
+{% block header %} {% endblock %}
+{% block body %}
+<div class="shop-page">
+            <ul class="nav nav-pills nav-stacked breadcrumbs">
+                <li class="nav-header">{% trans "Меню продавца:" %}</li>
+
+                <li>
+                    <a href="{% url show %}"><i class="icon-home"></i> {% trans "Магазин" %}</a>
+                </li>
+
+                <li>
+                    <a href="{% url show_my_orders %}"><i class="icon-calendar"></i> {% trans "Показать заказы" %}</a>
+                </li>
+                <li><a href="{% url contact %}"><i class=" icon-question-sign"></i> {% trans "Контакты" %}</a></li>
+
+            </ul>
+        <div class="row">
+        {% block big_content %}
+            <div class="span8">
+                <!-- <form class="well form-search search_main" method="post" action="{% url show %}"> {% csrf_token %}
+                    <input type="text" name='search' class="input-medium search-query" placeholder="Search in own shop" value="{{ query }}" >
+                    <button type="submit" class="btn btn-info" >Search</button>
+                </form> -->
+
+                <!--Body content-->
+               {% block content %} {% endblock %}
+
+            </div>
+            {% endblock %}
+            {% block last_event %}
+                    {% display_wall user %}
+            {% endblock %}
+        </div>
+        <!--End of Body content-->
+</div>
+<script type="text/javascript">
+$(function(){
+   var path = location.pathname.substring(1);
+   if ( path )
+     $('.breadcrumbs a[href$="' + path + '"]').attr('class', 'current');
+ });
+</script>   
+
+
+{% endblock %}
+
+

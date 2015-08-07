@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+{% if form %}
+<form method="post" action="." >{% csrf_token %}
+{{form}}
+<input type=submit value="change password">
+</form>
+{% else %}
+Password reset unsuccessful
+The password reset link was invalid, possibly because it has already been used. Please request a new password reset.
+{% endif %}
+
+{% endblock %}

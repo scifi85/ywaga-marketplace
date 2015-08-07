@@ -1,0 +1,1 @@
+Вы оплатили {{order.price}}$ за <a href="http://www.ywaga.com/orders/">заказ {{order.id}} </a>

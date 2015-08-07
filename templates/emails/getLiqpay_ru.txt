@@ -1,0 +1,4 @@
+Здравствуйте {{user}} !
+Вы получили {{amount}} .грн через Liqpay.
+
+http://ywaga.com

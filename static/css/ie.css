@@ -1,0 +1,7 @@
+.recommend-items li {
+    width: 159px !important;
+}
+
+.cart-holder {
+	*height: auto;
+}

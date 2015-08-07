@@ -1,0 +1,7 @@
+Дорогой {{user}}
+Покупатель {{buyer}} написал на вас <a href="http://www.ywaga.com/shop/add_complain/{{cart_id}}">жалобу</a>
+сума жалобы {{refund}}
+о товаре <a href="http://ywaga.com/product/{{cart.product.id}}">{{cart.product.name}}</a>
+
+текст жалобы
+{{message}}

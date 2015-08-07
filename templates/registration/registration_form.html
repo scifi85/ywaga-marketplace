@@ -1,0 +1,101 @@
+{% extends "registration/base.html" %}
+{% block body %}
+{% load i18n %}
+<script type="text/javascript">
+
+    
+$(function() {
+	$( "#forget").click(function() {
+		$("#forget_text_message").load("/accounts/password/reset/");
+        $('#modal-forget').modal('show');
+
+	});
+});
+</script>
+
+<div id="left">
+	<h3>{% trans "Вход для зарегестрированных пользователей" %}</h3>
+	<form method="post" action={{"/accounts/login/"}} >{% csrf_token %}
+		{{lForm.non_field_errors}}
+		<label>{% trans "Введите имя пользователя:" %}</label>
+		<input type="text" name="login" maxlength="75">
+		{{lForm.login.errors}}
+		<label>{% trans "Введите пароль:" %}</label>
+		<input type="password" name="password" maxlength="75">
+		{{lForm.password.errors}}
+		<br>
+		<button class="btn btn-warning btn-large">{% trans "Войти" %}</button>
+		<a href="#" id="forget">{% trans "Забыли пароль" %}?</a>
+		<input type="hidden" value="{{next}}" name="next">
+			<!-- <a href="#" onclick="return fb_login();" id="facebook"><fb:login-button>Login with Facebook</fb:login-button></a> -->
+	</form>
+</div>
+
+<div id="middle">
+	<h3>{% trans "Регистрация новых пользователей" %}</h3>
+	<form method="post" action="/accounts/register/"  name="reg">{% csrf_token %}
+	<input type=hidden value="{{next}}" name="url">
+	{{rForm.non_field_errors}}
+	<label>{% trans "Введите имя пользователя:" %}</label>
+	<input type="text" name="username" maxlength="75">
+	{{rForm.username.errors}}
+	<label>{% trans "Email:" %}</label>
+	<input type="text" name="email" maxlength="75">
+	{{rForm.email.errors}}
+	<label>{% trans "Введите пароль:" %}</label>
+	<input type="password" name="password1" maxlength="75" >
+	{{rForm.password1.errors}}
+	<label>{% trans "Подтвердите пароль:" %}</label>
+	<input type="password" name="password2" maxlength="75">
+	{{rForm.password2.errors}}
+	<br>
+	<button class="btn btn-warning btn-large">{% trans "Регистрация" %}</button>
+<!-- 	   {%ifequal LANGUAGE_CODE 'ru' %}
+	<input type=image value="submit" src={{"/media/img/reg-button.gif"}} value="Register">
+	  {% else %}
+	 <input type=image value="submit" src={{"/media/img/reg-button.en.gif"}} value="Register">
+	   {% endifequal%} -->	
+	</form>
+
+</div>
+
+    <div class="modal hide fade" id="modal-forget">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Ywaga.com</h3>
+        </div>
+        <div class="modal-body">
+            <span id="forget_text_message"></span>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">{% trans "Нет" %}</a>
+            <a href="#" class="btn btn-info" id='resetpas'>{% trans "Да" %}</a>
+        </div>
+    </div>
+
+{% if form %}
+    <script>
+        $(function(){
+
+            $('#modal-reset').modal('show');
+        })
+    </script>
+    <div class="modal hide fade" id="modal-reset">
+        <div class="modal-header">
+{#            <button type="button" class="close" data-dismiss="modal">×</button>#}
+            <h3>Ywaga</h3>
+        </div>
+        <div class="modal-body">
+            <form action="." method="POST" name="formResetPassword">{% csrf_token %}
+                {{form.as_p}}
+                <input type=submit class='btn btn-success' value="{% trans "Изменить пароль" %}">
+            </form>
+        </div>
+{#        <div class="modal-footer">#}
+{#            <a href="#" class="btn" data-dismiss="modal">{% trans "Нет" %}</a>#}
+{#            <a href="#" onclick="formResetPassword.submit()" class="btn btn-info" >{% trans "Да" %}</a>#}
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

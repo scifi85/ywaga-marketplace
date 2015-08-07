@@ -1,0 +1,4 @@
+Dear {{user}},
+Complain {{complain.id}}, for order {{complain.order.id}}
+for product {{complain.cart.product.name}} satisfied for {{complain.buyer}}
+Money {{complain.refund}}$ was sant to {{complain.buyer}}

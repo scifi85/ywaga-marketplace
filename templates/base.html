@@ -1,0 +1,560 @@
+{% load i18n %}
+{% load cart_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+
+
+    <meta charset="utf-8">
+    <meta name="verify-reformal" content="ee776204abf92eed0e88c4da" />
+    <meta name="description" content="Ywaga.com - шоппинг платформа, где каждый может быть продавцом и покупателем одновременно. Создайте свой интернет-магазин в один клик. Товары онлайн из Украины и Китая по самым доступным ценам. ">
+    <meta name="keywords" http-equiv="keywords" content="создать интернет магазин, товары из китая и украины, как создать интернет магазин бесплатно, увага.ком, шоппинг платформа, шоппинг,  одежда из Китая, обувь онлайн, онлайн покупки, как продавать в интернете, продажа через интернет, интернет шоппинг, одежда Украина">
+    <title>Ywaga.com - Продажи и покупки онлайн. Создай интернет магазин бесплатно одним кликом! Покупай легко и просто!</title>
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/shop.css" rel="stylesheet">
+    <script src="/static/scripts/translation.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.placeholder.min.js"></script>
+    <script type="text/javascript" src="/static/scripts/base.js"></script>
+    <script type="text/javascript" src="/static/scripts/messages.js"></script>
+    <meta name="google-site-verification" content="YcLI6cISERsBsLKZhqCbjusu7gkaTmA-txhd06DVs-Y" />
+    <script src="http://a.tbcdn.cn/apps/top/x/sdk.js?appkey=21030061"></script>
+{#    <script type="text/javascript" src="/jsi18n/cart/djangojs"></script>#}
+{#        <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>#}
+{#    <script type="text/javascript" src="/jsi18n/"></script>#}
+
+<!--[IE]>
+	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if IE]>
+    <link href="/static/css/ie.css" rel="stylesheet">
+<![endif]-->
+    <script>
+        var LANG='{{ LANGUAGE_CODE }}';
+        $(function(){
+
+            //hide 0 in cart
+            var z="{% cartLen %}";
+            if (z=='0')
+                $('#cartLen').hide();
+            //scroll
+            $('a[href=#top]').click(function(){
+                $('html, body').animate({scrollTop:0}, 'fast');
+                return false;
+            });
+
+        });
+    </script>
+
+    {% block header %} {% endblock %}
+
+</head>
+<body>
+<div class="container">
+<a name="top"></a>
+    <div class="header">
+        <div class="header-main">
+                        <ul class="nav nav-pills user-menu">
+                            {% if user.is_authenticated %}
+                                <span class="greetings">Привет, <a href="{% url contact %}" class="user" data-placement="bottom" title="Это вы. Нажмите ссылку, чтобы отредактировать ваши контактные данные.">{{ user.username }}</a>!
+                                </span>
+                                <li class="dropdown">
+                                        <a class="dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        href="#" title="Меню покупателя">{% trans "мои покупки" %}
+                                        <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                                <a href="{% url cart %}">{% trans "Корзина" %}</a>
+                                                <a href="{% url orders %}">{% trans "Сделки"%}</a>
+
+                                        </ul>
+                                </li>
+                                <li class="dropdown">
+                                        <a class="dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        href="#" title="Меню продавца">{% trans "мой магазин" %}
+                                        <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                                <a href="{% url show %}">{% trans "Товары" %}</a>
+                                                <a href="{% url show_my_orders %}">{% trans "Заказы" %}</a>
+                                                <a href="{% url contact %}">{% trans "Контакты" %}</a>
+                                        </ul>
+                                </li>
+                                <!-- <li>
+                                    <a href="{% url payments %}">{% trans "счёт" %}</a>
+                                </li> -->
+                                <li class="msg">
+                                    <a href="{% url show_messages %}" class="sms" title="Здесь находятся все ваши отправленные и полученные собщения." data-placement="bottom">{% trans "сообщения" %}</a>
+                                    {% if user.get_profile.is_new_messages %}
+                                        <span class="new-msg">new</span>
+                                    {% endif %}
+                                </li>
+                                <li><a href="{% url auth_logout %}">{% trans "выйти" %}</a></li>
+                                {% else %}
+                                <li><a href="{% url auth_login %}" class="reg" data-placement="bottom" title="Вам нужно зарегестрироваться для того, что бы покупать и продавать на Уваге">{% trans "регистрация \ войти" %}</a></li>
+                            {% endif %}
+                        </ul>
+                       <!--  <div class="lan">
+                            <div class="language">
+                                    <form action="/i18n/setlang/" method="post" name="trans_ru" >{% csrf_token %}
+                                        <input name="language" type="hidden" value="ru">
+                                        <input name="next" type="hidden" value="">
+
+                                        {% ifequal LANGUAGE_CODE 'ru' %}
+                                        <a href="#" onclick="trans_ru.submit()"><i class="bold-lang">рус</i></a>
+                                        {% else %}
+                                            <a href="#" onclick="trans_ru.submit()">рус</a>
+                                        {% endifequal %}
+                                    </form>
+                            </div>&nbsp;|
+
+                            <div class="language">
+                                <form action="/i18n/setlang/" method="post" name="trans_en" >{% csrf_token %}
+                                    <input name="next" type="hidden" value="">
+                                    <input name="language" type="hidden" value="en">
+                                    {% ifequal LANGUAGE_CODE 'en' %}
+                                    <a href="#" onclick="trans_en.submit()"><i class="bold-lang">eng</i></a>
+                                        {% else %}
+                                        <a href="#" onclick="trans_en.submit()">eng</a>
+                                    {% endifequal %}
+                                </form>
+                            </div>
+                        </div> -->
+                        <a href="http://ywaga.com/" class="logo"><img src="/static/img/logo.png" alt="Шопинг-платформа ywaga.com. Товары из Украины и Китая"></a>
+                        <div class="clear"></div>
+        </div><!--end of header-main-->
+        <div class="header-cat">
+            <!--Categories-->
+             <div class="categories">
+                 <h2 class="categories-header">{% trans "Категории" %}</h2>
+                  <ul class="catblock1">
+                   <li><a href="{% url category '50050358'%}">Женская одежда</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050358/50050359'%}">Куртки  ({% count_number 50050359 %}) </a><li>
+                         <li><a href="{% url category '50050358/50050360'%}">Кожаная одежда ({% count_number 50050360 %})</a><li>
+                         <li><a href="{% url category '50050358/50050361'%}">Мех и шубы ({% count_number 50050361 %})</a><li>
+                         <li><a href="{% url category '50050358/50050362'%}">Платья ({% count_number 50050362 %})</a><li>
+                         <li><a href="{% url category '50050358/50050363'%}">Свадебные платья ({% count_number 50050363 %})</a><li>
+                         <li><a href="{% url category '50050358/50050364'%}">Рубашки ({% count_number 50050364 %})</a><li>
+                         <li><a href="{% url category '50050358/50050365'%}">Брюки ({% count_number 50050365 %})</a><li>
+                         <li><a href="{% url category '50050358/50050366'%}">Джинсы ({% count_number 50050366 %})</a><li>
+                         <li><a href="{% url category '50050358/50050367'%}">Свитера ({% count_number 50050367 %})</a><li>
+                         <li><a href="{% url category '50050358/50050368'%}">Футболки и майки ({% count_number 50050368 %})</a><li>
+                         <li><a href="{% url category '50050358/50050369'%}">Пальто ({% count_number 50050369 %})</a><li>
+                         <li><a href="{% url category '50050358/50050370'%}">Юбки ({% count_number 50050370 %})</a><li>
+                         <li><a href="{% url category '50050358/50050371'%}">Спортивная одежда ({% count_number 50050371 %})</a><li>
+                         <li><a href="{% url category '50050358/50050372'%}">Купальники, для пляжа ({% count_number 50050372 %})</a><li>
+                         <li><a href="{% url category '50050358/50050373'%}">Нижнее бельё ({% count_number 50050373 %})</a><li>
+                         <li><a href="{% url category '50050358/50050374'%}">Пиджаки ({% count_number 50050374 %})</a><li>
+                         <li><a href="{% url category '50050358/50050375'%}">Одежда для дома ({% count_number 50050375 %})</a><li>
+                         <li><a href="{% url category '50050358/50050376'%}">Шорты ({% count_number 50050376 %})</a><li>
+                         <li><a href="{% url category '50050358/50050377'%}">Головные уборы, Шарфы, Перчатки ({% count_number 50050377 %}) </a><li>
+                         <li><a href="{% url category '50050358/50050378'%}">Носки, Колготки, Леггинсы ({% count_number 50050378 %})</a><li>
+                         <li><a href="{% url category '50050358/50050510'%}">Другое ({% count_number 50050510 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050379'%}">Женская обувь</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050379/50050380'%}">Ботинки ({% count_number 50050380 %})</a><li>
+                         <li><a href="{% url category '50050379/50050381'%}">Туфли ({% count_number 50050381 %})</a><li>
+                         <li><a href="{% url category '50050379/50050382'%}">Сапоги ({% count_number 50050382 %})</a><li>
+                         <li><a href="{% url category '50050379/50050383'%}">Обувь для спорта ({% count_number 50050383 %})</a><li>
+                         <li><a href="{% url category '50050379/50050384'%}">Обувь для дома ({% count_number 50050384 %})</a><li>
+                         <li><a href="{% url category '50050379/50050385'%}">Кеды, Повседневная обувь ({% count_number 50050385 %})</a><li>
+                         <li><a href="{% url category '50050379/50050386'%}">Босоножки, Сандалии ({% count_number 50050386 %})</a><li>
+                         <li><a href="{% url category '50050379/50050387'%}">Балетки ({% count_number 50050387 %})</a><li>
+                         <li><a href="{% url category '50050379/50050511'%}">Другое ({% count_number 50050511 %})</a><li>                    
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050388'%}">Мужская одежда</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050388/50050389'%}">Брюки ({% count_number 50050389 %})</a><li>
+                         <li><a href="{% url category '50050388/50050390'%}">Джинсы ({% count_number 50050390 %})</a><li>
+                         <li><a href="{% url category '50050388/50050391'%}">Куртки ({% count_number 50050391 %})</a><li>
+                         <li><a href="{% url category '50050388/50050392'%}">Свитера ({% count_number 50050392 %})</a><li>
+                         <li><a href="{% url category '50050388/50050393'%}">Кожаная одежда ({% count_number 50050393 %})</a><li>
+                         <li><a href="{% url category '50050388/50050394'%}">Пальто ({% count_number 50050394 %})</a><li>
+                         <li><a href="{% url category '50050388/50050395'%}">Костюмы ({% count_number 50050395 %})</a><li>
+                         <li><a href="{% url category '50050388/50050396'%}">Рубашки ({% count_number 50050396 %})</a><li>
+                         <li><a href="{% url category '50050388/50050397'%}">Футболки и майки ({% count_number 50050397 %})</a><li>
+                         <li><a href="{% url category '50050388/50050398'%}">Спортивная одежда ({% count_number 50050398 %})</a><li>
+                         <li><a href="{% url category '50050388/50050399'%}">Нижне бельё ({% count_number 50050399 %})</a><li>
+                         <li><a href="{% url category '50050388/50050400'%}">Носки ({% count_number 50050400 %})</a><li>
+                         <li><a href="{% url category '50050388/50050401'%}">Головные уборы, Шарфы, Перчатки ({% count_number 50050401 %})</a><li>
+                         <li><a href="{% url category '50050388/50050402'%}">Пиджаки ({% count_number 50050402 %})</a><li>
+                         <li><a href="{% url category '50050388/50050403'%}">Шорты ({% count_number 50050403 %})</a><li>
+                         <li><a href="{% url category '50050388/50050423'%}">Одежда для дома ({% count_number 50050423 %})</a><li>
+                         <li><a href="{% url category '50050388/50050512'%}">Другое ({% count_number 50050512 %})</a><li>                     
+                       </ul>
+                   </li>                   
+                   <li><a href="{% url category '50050404'%}">Мужская обувь</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050404/50050405'%}">Ботинки ({% count_number 50050405 %})</a><li>
+                         <li><a href="{% url category '50050404/50050406'%}">Сапоги ({% count_number 50050406 %})</a><li>
+                         <li><a href="{% url category '50050404/50050407'%}">Туфли ({% count_number 50050407 %})</a><li>
+                         <li><a href="{% url category '50050404/50050408'%}">Обувь для спорта ({% count_number 50050408 %})</a><li>
+                         <li><a href="{% url category '50050404/50050409'%}">Кеды, Повседневная обувь ({% count_number 50050409 %})</a><li>
+                         <li><a href="{% url category '50050404/50050410'%}">Обувь для дома ({% count_number 50050410 %})</a><li>
+                         <li><a href="{% url category '50050404/50050411'%}">Сандалии ({% count_number 50050411 %})</a><li>
+                         <li><a href="{% url category '50050404/50050513'%}">Другое ({% count_number 50050513 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050428'%}">Сумки и аксессуары</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050428/50050429'%}">Женские сумки ({% count_number 50050429 %})</a><li>
+                         <li><a href="{% url category '50050428/50050430'%}">Мужские сумки ({% count_number 50050430 %})</a><li>
+                         <li><a href="{% url category '50050428/50050431'%}">Дорожные сумки, Чемоданы ({% count_number 50050431 %})</a><li>
+                         <li><a href="{% url category '50050428/50050432'%}">Спортивные сумки, Рюкзаки ({% count_number 50050432 %})</a><li>
+                         <li><a href="{% url category '50050428/50050433'%}">Кошельки, Клатчи ({% count_number 50050433 %})</a><li>
+                         <li><a href="{% url category '50050428/50050434'%}">Ремни ({% count_number 50050434 %})</a><li>
+                         <li><a href="{% url category '50050428/50050515'%}">Другое ({% count_number 50050515 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050412'%}">Детская одежда и обувь</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050412/50050413'%}">Штаны ({% count_number 50050413 %})</a><li>
+                         <li><a href="{% url category '50050412/50050414'%}">Комбинезоны ({% count_number 50050414 %})</a><li>
+                         <li><a href="{% url category '50050412/50050415'%}">Футболки и майки ({% count_number 50050415 %})</a><li>
+                         <li><a href="{% url category '50050412/50050416'%}">Обувь ({% count_number 50050416 %})</a><li>
+                         <li><a href="{% url category '50050412/50050417'%}">Верхняя одежда ({% count_number 50050417 %})</a><li>
+                         <li><a href="{% url category '50050412/50050418'%}">Рубашки ({% count_number 50050418 %})</a><li>
+                         <li><a href="{% url category '50050412/50050419'%}">Свитера ({% count_number 50050419 %})</a><li>
+                         <li><a href="{% url category '50050412/50050420'%}">Джинсы ({% count_number 50050420 %})</a><li>
+                         <li><a href="{% url category '50050412/50050421'%}">Головные уборы, Шарфы, Перчатки ({% count_number 50050421 %})</a><li>
+                         <li><a href="{% url category '50050412/50050422'%}">Одежда для дома ({% count_number 50050422 %})</a><li>
+                         <li><a href="{% url category '50050412/50050424'%}">Носки, Колготки ({% count_number 50050424 %})</a><li>
+                         <li><a href="{% url category '50050412/50050425'%}">Платья, Юбки ({% count_number 50050425 %})</a><li>
+                         <li><a href="{% url category '50050412/50050426'%}">Костюмы ({% count_number 50050426 %})</a><li>
+                         <li><a href="{% url category '50050412/50050427'%}">Шорты ({% count_number 50050427 %})</a><li>
+                         <li><a href="{% url category '50050412/50050514'%}">Другое ({% count_number 50050514 %})</a><li>                     
+                       </ul>
+                   </li>              
+                </ul>
+                <ul class="catblock2">
+                   <li><a href="{% url category '50050447'%}">Компьютеры и ноутбуки</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050447/50050448'%}">Настольные ПК ({% count_number 50050448 %})</a><li>
+                         <li><a href="{% url category '50050447/50050449'%}">Ноутбуки ({% count_number 50050449 %})</a><li>
+                         <li><a href="{% url category '50050447/50050450'%}">Мультимедиа ({% count_number 50050450 %})</a><li>
+                         <li><a href="{% url category '50050447/50050451'%}">ТВ-тюнеры ({% count_number 50050451 %})</a><li>
+                         <li><a href="{% url category '50050447/50050452'%}">Дисплеи ({% count_number 50050452 %})</a><li>
+                         <li><a href="{% url category '50050447/50050453'%}">Графика ({% count_number 50050453 %})</a><li>
+                         <li><a href="{% url category '50050447/50050454'%}">Планшеты ({% count_number 50050454 %})</a><li>
+                         <li><a href="{% url category '50050447/50050455'%}">Клавиатура и мышь ({% count_number 50050455 %})</a><li>
+                         <li><a href="{% url category '50050447/50050456'%}">Звуковые карты ({% count_number 50050456 %})</a><li>
+                         <li><a href="{% url category '50050447/50050457'%}">Память ({% count_number 50050457 %})</a><li>
+                         <li><a href="{% url category '50050447/50050458'%}">Процессоры ({% count_number 50050458 %})</a><li>
+                         <li><a href="{% url category '50050447/50050459'%}">Wi-Fi ({% count_number 50050459 %})</a><li>
+                         <li><a href="{% url category '50050447/50050460'%}">Аксессуары ({% count_number 50050460 %})</a><li>
+                         <li><a href="{% url category '50050447/50050518'%}">Другое ({% count_number 50050518 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050461'%}">Телефоны, Смартфоны</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050461/50050462'%}">Мобильные телефоны ({% count_number 50050462 %})</a><li>
+                         <li><a href="{% url category '50050461/50050463'%}">Смартфоны ({% count_number 50050463 %})</a><li>
+                         <li><a href="{% url category '50050461/50050464'%}">Стационарные телефоны ({% count_number 50050464 %})</a><li>
+                         <li><a href="{% url category '50050461/50050465'%}">Аксессуары ({% count_number 50050465 %})</a><li>
+                         <li><a href="{% url category '50050461/50050466'%}">Комплектующие ({% count_number 50050466 %})</a><li>
+                         <li><a href="{% url category '50050461/50050519'%}">Другое ({% count_number 50050519 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050441'%}">Косметика, Парфюмерия</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050441/50050442'%}">Декоративная косметика ({% count_number 50050442 %})</a><li>
+                         <li><a href="{% url category '50050441/50050443'%}">Мужская парфюмерия ({% count_number 50050443 %})</a><li>
+                         <li><a href="{% url category '50050441/50050444'%}">Женская парфюмерия ({% count_number 50050444 %})</a><li>
+                         <li><a href="{% url category '50050441/50050445'%}">Косметика по уходу ({% count_number 50050445 %})</a><li>
+                         <li><a href="{% url category '50050441/50050446'%}">Профессиональная косметика ({% count_number 50050446 %})</a><li>
+                         <li><a href="{% url category '50050441/50050517'%}">Другое ({% count_number 50050517 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050495'%}">Красота и здоровье</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050495/50050496'%}">Витамины, БАДы ({% count_number 50050496 %})</a><li>
+                         <li><a href="{% url category '50050495/50050497'%}">Спортивное питание ({% count_number 50050497 %})</a><li>
+                         <li><a href="{% url category '50050495/50050498'%}">Массажеры ({% count_number 50050498 %})</a><li>
+                         <li><a href="{% url category '50050495/50050495/50050499'%}">Чайv({% count_number 50050499 %})</a><li>
+                         <li><a href="{% url category '50050495/50050500'%}">Товары для личной гигиеныv({% count_number 50050500 %})</a><li>
+                         <li><a href="{% url category '50050495/50050523'%}">Другое ({% count_number 50050523 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050474'%}">Часы</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050474/50050475'%}">Женские часы ({% count_number 50050475 %})</a><li>
+                         <li><a href="{% url category '50050474/50050476'%}">Мужские часы ({% count_number 50050476 %})</a><li>
+                         <li><a href="{% url category '50050474/50050477'%}">Часы для дома ({% count_number 50050477 %})</a><li>
+                         <li><a href="{% url category '50050474/50050521'%}">Другое ({% count_number 50050521 %})</a><li>                     
+                       </ul>
+                   </li>
+                </ul>
+                <ul class="catblock3">
+                   <li><a href="{% url category '50050478'%}">Всё для дома и офиса</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050478/50050479'%}">Офисная мебель ({% count_number 50050479 %})</a><li>
+                         <li><a href="{% url category '50050478/50050480'%}">Кухонная мебель ({% count_number 50050480 %})</a><li>
+                         <li><a href="{% url category '50050478/50050481'%}">Мебель для спальни ({% count_number 50050481 %})</a><li>
+                         <li><a href="{% url category '50050478/50050482'%}">Детская мебель ({% count_number 50050482 %})</a><li>
+                         <li><a href="{% url category '50050478/50050483'%}">Мебель для гостиной ({% count_number 50050483 %})</a><li>
+                         <li><a href="{% url category '50050478/50050484'%}">Всё для ремонта ({% count_number 50050484 %})</a><li>
+                         <li><a href="{% url category '50050478/50050485'%}">Освещение ({% count_number 50050485 %})</a><li>
+                         <li><a href="{% url category '50050478/50050486'%}">Интерьер, декор ({% count_number 50050486 %})</a><li>
+                         <li><a href="{% url category '50050478/50050487'%}">Товары для ванной ({% count_number 50050487 %})</a><li>
+                         <li><a href="{% url category '50050478/50050488'%}">Интеллектуальные системы дома ({% count_number 50050488 %})</a><li>
+                         <li><a href="{% url category '50050478/50050489'%}">Оргтехника ({% count_number 50050489 %})</a><li>
+                         <li><a href="{% url category '50050478/50050490'%}">Фурнитура ({% count_number 50050490 %})</a><li>
+                         <li><a href="{% url category '50050478/50050491'%}">Канцтовары ({% count_number 50050491 %})</a><li>
+                         <li><a href="{% url category '50050478/50050492'%}">Хозтовары ({% count_number 50050492 %})</a><li>
+                         <li><a href="{% url category '50050478/50050493'%}">Посуда ({% count_number 50050493 %})</a><li>
+                         <li><a href="{% url category '50050478/50050494'%}">Постельное бельё ({% count_number 50050494 %})</a><li>
+                         <li><a href="{% url category '50050478/50050522'%}">Другое ({% count_number 50050522 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050467'%}">Бытовая техника</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050467/50050468'%}">Аудиотехника и аксессуары ({% count_number 50050468 %})</a><li>
+                         <li><a href="{% url category '50050467/50050469'%}">Видеотехника и аксессуары ({% count_number 50050469 %})</a><li>
+                         <li><a href="{% url category '50050467/50050470'%}">Холодильники ({% count_number 50050470 %})</a><li>
+                         <li><a href="{% url category '50050467/50050471'%}">Стиральные машины ({% count_number 50050471 %})</a><li>
+                         <li><a href="{% url category '50050467/50050472'%}">MP3, MP4, IPod ({% count_number 50050472 %})</a><li>
+                         <li><a href="{% url category '50050467/50050473'%}">Кухонная техника ({% count_number 50050473 %})</a><li>
+                         <li><a href="{% url category '50050467/50050520'%}">Другое ({% count_number 50050520 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050501'%}">Всё для авто</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050501/50050502'%}">Запчасти, Шины, Диски ({% count_number 50050502 %})</a><li>
+                         <li><a href="{% url category '50050501/50050503'%}">Аксессуары ({% count_number 50050503 %})</a><li>
+                         <li><a href="{% url category '50050501/50050504'%}">Тюнинг ({% count_number 50050504 %})</a><li>
+                         <li><a href="{% url category '50050501/50050524'%}">Другое ({% count_number 50050524 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050435'%}">Спорт и отдых</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050435/50050436'%}">Спортивная экипировка ({% count_number 50050436 %})</a><li>
+                         <li><a href="{% url category '50050435/50050437'%}">Спортивный инвентарь ({% count_number 50050437 %})</a><li>
+                         <li><a href="{% url category '50050435/50050438'%}">Тренажеры ({% count_number 50050438 %})</a><li>
+                         <li><a href="{% url category '50050435/50050439'%}">Туристическое снаряжение ({% count_number 50050439 %})</a><li>
+                         <li><a href="{% url category '50050435/50050440'%}">Для пикника ({% count_number 50050440 %})</a><li>
+                         <li><a href="{% url category '50050435/50050516'%}">Другое ({% count_number 50050516 %})</a><li>                     
+                       </ul>
+                   </li>
+                   <li><a href="{% url category '50050505'%}">Оптика</a>
+                       <ul class="sub-menu">
+                         <li><a href="{% url category '50050505/50050506'%}">Солнцезащитные женские ({% count_number 50050506 %})</a><li>
+                         <li><a href="{% url category '50050505/50050507'%}">Солнцезащитные мужские ({% count_number 50050507 %})</a><li>
+                         <li><a href="{% url category '50050505/50050508'%}">Оправы женские ({% count_number 50050508 %})</a><li>
+                         <li><a href="{% url category '50050505/50050509'%}">Оправы мужские ({% count_number 50050509 %})</a><li>
+                         <li><a href="{% url category '50050505/50050525'%}">Другое ({% count_number 50050525 %})</a><li>                     
+                       </ul>
+                   </li>
+                </ul> 
+             </div>           
+            <!--End of Categories-->
+            <div class="search-cart">
+                <div class="search">
+                    <form action="{% url index %}" method="get">
+                        <input class="search-line" type="text" name='q' placeholder="{% trans " | введите название товара" %}" value="{{ query }}" />
+                        <input class="search-submit" type="submit" value="{% trans "искать" %}" />
+                    </form>
+                </div>
+                <div class="cart-holder">
+                    <a href="{% url cart %}" class="cart">
+                        <span class="korzina">{% trans "корзина" %}</span>
+                        <span class="cart-numb">{% cartLen  %}</span>
+                    </a>
+                </div>
+            </div>
+        </div><!--End of header-cat-->               
+    </div>
+        <div class="row-fluid page">
+                    <div class="span12">
+
+                    <!--Body content-->
+                    {% block body %}
+                    aaa
+                    {% endblock %}
+
+                    </div>
+                    <!--End of Body content-->
+        </div>
+        <div class="footer">
+                <ul class="footer-buy">
+                        <li class="footer-head">{% trans "Покупателю" %}</li>
+                        <li><a href="/how-buy/">{% trans "Как покупать?" %}</a></li>
+                        <li><a href="/rating/">{% trans "Рейтинги продавцов" %}</a></li>
+                </ul>
+                <ul class="footer-sell">
+                        <li class="footer-head">{% trans "Продавцу" %}</li>
+                        <li><a href="/how-sell/">{% trans "Как продавать на ywaga.com" %}</a></li>
+                        <li><a href="/plugin/">{% trans "Добавить товар с Taobao"%}</a></li>
+                </ul>
+                <ul class="footer-about">
+                        <li class="footer-head">{% trans "О нас" %}</li>
+                        <li><a href="/about-ywaga/">{% trans "Что такое Увага?" %}</a></li>
+                        <li><a href="/showNews/">{% trans "Новости" %}</a></li>
+                        <!-- <li><a href="">{% trans "Информация о компании" %}</a></li> 
+                        <li><a href="">{% trans "Инвесторам" %}</a></li>-->
+                        <li><a href="/job/">{% trans "Вакансии на ywaga.com" %}</a></li>
+                </ul>
+                <ul class="footer-social">
+                        <li class="footer-head">{% trans "Свяжитесь с нами" %}</li>
+                        <li><a href="mailto:info@ywaga.com">{% trans "Написать нам" %}</a></li>
+                        <li><a href="http://www.odnoklassniki.ru/group/51884283068592">{% trans "Одноклассники" %}</a></li>
+                        <li><a href="http://vk.com/public44769385">{% trans "Вконтакте" %}</a></li>
+                </ul>   
+                <div class="clear"></div>
+                <p class="copyright">Copyright © 2013 Ywaga. All rights reserved.</p>
+                <a href="#top" class="totop"><img src="/static/img/top.png" alt=""></a>
+        </div>
+
+
+
+<!-- Inputform -->
+<div class="modal hide fade" id="modal-inputform">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3 id="confirm-input-header"></h3>
+    </div>
+    <div class="modal-body">
+        <form action="." method="post" id="input_form"> {% csrf_token %}
+            <p id="confirm-input-message"></p>
+            <textarea class="reason" name="note" id="textFieldModal"></textarea>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">{% trans "Нет" %}</a>
+        <a href="#" class="btn btn-info disabled" id="daInputForm">{% trans "Да" %}</a>
+    </div>
+</div>
+
+<div class="modal hide fade" id="modal-success">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+      <p id="success_text_message"></p>
+  </div>
+</div>
+
+<div class="modal hide fade" id="modal-info">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+      <p id="info_text_message"></p>
+  </div>
+</div>
+
+<div class="modal hide fade" id="modal-danger">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <p id="danger_text_message"></p>
+    </div>
+</div>
+
+
+<div class="modal hide fade" id="modal-text">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3 id="confirm_text_header">Ywaga.com</h3>
+  </div>
+  <div class="modal-body">
+    <p id="confirm_text_message"></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">{% trans "Нет" %}</a>
+    <a href="#" class="btn btn-info" id="da">{% trans "Да" %}</a>
+  </div>
+</div>
+
+
+
+
+
+<div class=" hide fade" id="modal-loader" style="text-align: center;position: fixed;z-index: 1050;top:45%;left:45%;">
+
+        <img src="/static/loading.gif">
+
+
+
+</div>
+
+<script type="text/javascript">
+    $('input, textarea').placeholder();
+    $('#log-tooltip').tooltip({placement: 'bottom'});
+</script>
+
+<!-- Отзывы и предложения -->
+
+<script type="text/javascript">
+    var reformalOptions = {
+        project_id: 71674,
+        project_host: "ywaga.reformal.ru",
+        tab_orientation: "left",
+        tab_indent: "50%",
+        tab_bg_color: "#C1B6B3",
+        tab_border_color: "#FFFFFF",
+        tab_image_url: "http://tab.reformal.ru/T9GC0LfRi9Cy0Ysg0Lgg0L%252FRgNC10LTQu9C%252B0LbQtdC90LjRjw==/FFFFFF/2a94cfe6511106e7a48d0af3904e3090/left/1/tab.png",
+        tab_border_width: 2
+    };
+    
+    (function() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript'; script.async = true;
+        script.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'media.reformal.ru/widgets/v3/reformal.js';
+        document.getElementsByTagName('head')[0].appendChild(script);
+    })();
+</script><noscript><a href="http://reformal.ru"><img src="http://media.reformal.ru/reformal.png" /></a><a href="http://ywaga.reformal.ru">Oтзывы и предложения для ywaga.com</a></noscript>
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23519869-8']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter17236510 = new Ya.Metrika({id:17236510, enableAll: true});
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/17236510" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<!-- Siteheart -->
+<!-- <a class="siteheart-online" href="https://siteheart.com/webconsultation/519427?" target="siteheart_sitewindow_519427" onclick="o=window.open;o('https://siteheart.com/webconsultation/519427?', 'siteheart_sitewindow_519427', 'width=550,height=400,top=30,left=30,resizable=yes'); return false;"><img src="http://webindicator.siteheart.com/webindicator/image/1348142053?ent=519427&company=519427" border="0" alt="SiteHeart" /> </a> -->
+
+<script>
+    $('.user, .sms, .reg').tooltip();
+</script>
+
+</body>
+</html>
+
+{% for message in messages %}
+{% autoescape off %}
+       <script>show_message_{{ message.tags }}("{{ message }}"); </script>
+{% endautoescape %}
+{% endfor %}

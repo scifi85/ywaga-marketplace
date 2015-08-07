@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block body %}
+<div class="row page-pad">
+    {% if chats.object_list %}
+
+<div class="span2"></div>
+<div class="span8">
+
+    <table class="table table-striped table-condensed table-messages">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{% trans "Диалог" %}</th>
+            <th>{% trans "Последнее сообщение" %}</th>
+            <th>{% trans "Дата" %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for chat in chats.object_list %}
+            {% ifequal chat.to_user  user %}
+            <tr>
+                <td>
+              {% if chat.is_to_user_read %}
+                        <a href="{% url send_message chat.from_user.username %}" class="true-msg" title="{% trans "Новое сообщение" %}"></a>
+              {% else %}
+                        <a href="{% url send_message chat.from_user.username %}" class="false-msg" title="{% trans "Просмотренное сообщение" %}"></a> 
+              {% endif %}
+
+                </td>
+                <td class="td-msg">
+                     <a href="{% url send_message chat.from_user.username %}" class="from-who"><i class="icon-user"></i> {{ chat.from_user.username  }}</a>
+                </td>
+                <td class="td-msg"><a href="{% url send_message chat.from_user.username %}"><span class="from-who2">{{ chat.from_user.username  }}:</span>{{ chat.comments.all.0 }}</a></td>
+                <td>{{ chat.modify_date|date:"d.m.y" }}</td>
+            </tr>
+            {% else %}
+                <tr>
+                    <td>
+              {% if chat.is_from_user_read %}
+                        <a href="{% url send_message chat.to_user.username %}" class="true-msg" title="{% trans "Новое сообщение" %}"></a>
+              {% else %}
+                        <a href="{% url send_message chat.to_user.username %}" class="false-msg" title="{% trans "Просмотренное сообщение" %}"></a> 
+                      {% endif %}
+                    </td>
+                    <td class="td-msg">
+                        <a href ="{% url send_message chat.to_user.username %}" class="from-who"><i class="icon-user"></i> {{ chat.to_user.username  }}</a>
+                    </td>
+                    <td class="td-msg"><a href="{% url send_message chat.to_user.username %}"><span class="from-who2">{{ chat.from_user.username  }}:</span> {{ chat.comments.all.0 }}</a></td>
+                    <td>{{ chat.modify_date|date:"d.m.y" }}</td>
+                </tr>
+            {% endifequal %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <ul class="paginator">
+        {% if chats.has_previous %}
+            <li class="page-prev"><a href="?page={{ chats.previous_page_number }}" id="previous"> ← </a></li>
+        {% endif %}
+        {{ chats.number }}  {% trans "из" %}  {{ chats.paginator.num_pages }}
+        {% if chats.has_next %}
+            <li class="page-next"><a href="?page={{ chats.next_page_number }}" id="next"> → </a></li>
+        {% endif %}
+    </ul>
+
+{% else %}
+    {% trans "У вас нет ни одного сообщения" %}
+    <span class="sadsmile">:(</span>
+{% endif %}
+</div>
+<script type="text/javascript">
+    /**
+ * jquery.readmore - Substring long paragraphs and make expandable with "more" link
+ * @date 19 May 2012
+ * @author Jake Trent  http://www.builtbyjake.com
+ * @version 1.5
+ */
+(function ($) {
+  $.fn.readmore = function (settings) {
+
+    var defaults = {
+      substr_len: 200,
+      ellipses: '&#8230;',
+      more_link: '<a class="readm-more"></a>',
+      more_clzz: 'readm-more',
+      ellipse_clzz: 'readm-continue',
+      hidden_clzz: 'readm-hidden'
+    };
+
+    var opts =  $.extend({}, defaults, settings);
+
+    this.each(function () {
+      var $this = $(this);
+      if ($this.html().length > opts.substr_len) {
+        abridge($this);
+        linkage($this);
+      }
+    });
+
+    function linkage(elem) {
+      elem.append(opts.more_link);
+      elem.find('.' + opts.more_clzz).click( function () {
+        $(this).hide();
+        elem.find('.' + opts.ellipse_clzz).hide();
+        elem.find('.' + opts.hidden_clzz).animate({'opacity' : 'toggle'},1000);
+      });
+    }
+
+    function abridge(elem) {
+      var txt = elem.html();
+      var dots = "<span class='" + opts.ellipse_clzz + "'>" + opts.ellipses + "</span>";
+      var shown = txt.substring(0, opts.substr_len) + dots;
+      var hidden =
+        '<span class="' + opts.hidden_clzz + '" style="display:none;">' +
+          txt.substring(opts.substr_len, txt.length) +
+        '</span>';
+      elem.html(shown + hidden);
+    }
+    
+    return this;
+  };
+})(jQuery);
+</script>
+
+<script type="text/javascript">
+    $('.table-messages a').readmore();
+
+</script>
+<script>
+      $('.false-msg').parent().siblings().find('a').css('color', '#777777');
+</script>
+{% endblock %}

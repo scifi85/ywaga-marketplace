@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="page-pad">
+<div class="row">
+    <ul class="leftside nav nav-pills nav-stacked span3 well">
+		<li>
+			<a href="/about-ywaga/">Что такое Увага?</a>
+		</li>
+		<li class="divider"></li>
+		<li class="nav-header">
+			Покупателю
+		</li>
+		<li>
+			<a href="/how-buy/">Как покупать?</a>
+		</li>
+		<li>
+			<a href="/rating/">Рейтинги продавцов</a>
+		</li>
+		<li class="divider"></li>
+		<li class="nav-header">
+			Продавцу
+		</li>
+		<li>
+			<a href="/how-sell/">Как продавать?</a>
+		</li>
+		<li>
+			<a href="/plugin/">Добавить товар с Taobao</a>
+		</li>		
+    </ul>
+    <div class="rightarea span9">
+        <h1>{{ flatpage.title }}</h1>
+        {{ flatpage.content }}
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+   var path = location.pathname.substring(1);
+   if ( path )
+     $('.leftside a[href$="' + path + '"]').parent().attr('class', 'active');
+ });
+</script> 
+{% endblock %}

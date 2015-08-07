@@ -1,0 +1,5 @@
+Dear {{user}},
+you got message {{message}} from user {{who}}
+for reply go to
+<a href="http://ywaga.com/show_chat/{{who}}/>link</a>
+

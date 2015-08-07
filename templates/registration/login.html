@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block body %}
+<form action="#" method="post">
+{{form.as_p}}
+
+<input type=submit value="submit">
+</form>
+
+<a href="/accounts/password/reset/" style="color:#003498;text-decoration:underline">{% trans "Забыли пароль?" %}</a>
+{%endblock%}

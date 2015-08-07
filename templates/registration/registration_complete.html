@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body %}
+    <h2 class="register-title">Поздравляем! Регистрация прошла успешно!</h2>
+    <h3 class="register-subtitle">Теперь вы можете:</h2>
+    <div class="rgstr well span6">
+    	<h4><i class="icon-tag"></i> Как продавец:</h4>
+    	<ul>
+    		<li><span class="badge">&#10004;</span> <a href="#">Добавить свой первый товар</a></li>
+    		<br>
+    		<a href="{%  url add_product %}" class="btn btn-large btn-warning">Добавить товар</a>
+    		<br><br>
+    		<li><span class="badge">&#10004;</span> <a href="#">Указать дополнительные данные о себе и о вашем магазине</a></li>
+    		<li><span class="badge">&#10004;</span> <a href="#">Узнать подробнее о процессе продажи на сайте</a></li>
+    	</ul>
+    	
+    </div>
+    <div class="rgstr well span6">
+    	<h4><i class="icon-shopping-cart"></i> Как покупатель:</h4>
+    	<ul>
+    		<li><span class="badge">&#10004;</span> <a href="#">Найти необходимый вам товар с помощью строки поиска:</a></li>
+    		<br>
+	    	<form action="{% url index %}" method="get">
+	                    <input class="search-line" type="text" name='q' placeholder="| слова для поиска" value="{{ query }}" />
+	                    <input class="search-submit" type="submit" value="найти"/>
+	        </form>
+	        <div class="clear"></div>
+    		<li><span class="badge">&#10004;</span> <a href="#">Пополнить ваш персональный счёт на сайте для того, чтобы совершать покупки. Без комиссий и прочего.</a></li>
+    		<li><span class="badge">&#10004;</span> <a href="#">Узнать подробнее о процессе покупки на сайте</a></li>
+    	</ul>
+    </div>
+ <div class="clear"></div>   
+ <span class="sadsmile">:)</span>   
+{% endblock %}

@@ -1,0 +1,2 @@
+Дорогой {{user}}
+Жалоба {{complain.id}} от {{complain.buyer}} не удовлетворена
